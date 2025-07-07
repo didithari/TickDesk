@@ -10,7 +10,7 @@ use App\Models\Akun;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
-class AkunAdminController extends Controller
+class AkunSupportController extends Controller
 {
     protected $Akun;
     protected $Role;
@@ -21,14 +21,16 @@ class AkunAdminController extends Controller
         $this->Role = new Role();
     }
 
-    public function index(){
-        $all = $this->Akun->alldatad();
-        $filtered = $all->where('lvlAkun', 1); // filter di sini
-        return view('Admin.akun', [
-            'alldata' => $filtered,
-            'roles' => $this->Role->all(),
-        ]);
-    }
+    public function index()
+{
+    $alldata = [
+        // hanya ambil data akun dengan lvlAkun = 1 (admin)
+        'alldata' => $this->Akun->where('lvlAkun', 2)->get(),
+        'roles' => $this->Role->all(),
+    ];
+    return view('Admin.support', $alldata);
+}
+
 
     public function save(Request $request)
     {
@@ -56,7 +58,7 @@ class AkunAdminController extends Controller
             'password' => $request->pass,
             'name' => $request->nama,
             'status' => 'Away',
-            'lvlAkun' => '1',
+            'lvlAkun' => '2',
             'idRole' => $request->role,
             'imgProfile' => $gambarUrl,
         ];

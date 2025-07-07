@@ -20,13 +20,13 @@
 <li class="menu-item {{ Request::is('admin/akun*') ? 'active' : '' }}">
     <a href="/admin/akun" class="menu-link ">
         <i class="menu-icon tf-icons ti ti-user"></i>
-        <div data-i18n="Developer Account">Dev Account</div>
+        <div data-i18n="Developer Account">Developer Account</div>
         {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
     </a>
 </li>
 
-<li class="menu-item {{ Request::is('') ? 'active' : '' }}">
-    <a href="" class="menu-link ">
+<li class="menu-item {{ Request::is('admin/support*') ? 'active' : '' }}">
+    <a href="/admin/support" class="menu-link ">
         <i class="menu-icon tf-icons ti ti-user"></i>
         <div data-i18n="Support Account">Support Account</div>
         {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
@@ -35,7 +35,7 @@
 
 <li class="menu-item {{ Request::is('') ? 'active' : '' }}">
     <a href="" class="menu-link ">
-        <i class="menu-icon tf-icons ti ti-user"></i>
+        <i class="menu-icon tf-icons ti ti-ticket"></i>
         <div data-i18n="Support Ticket">Support Ticket</div>
         {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
     </a>

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AkunAdminController;
+use App\Http\Controllers\AkunSupportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,7 @@ Route::get('/', function () {
 
 
 Route::get('/admin/akun', [AkunAdminController::class, 'index'])->name('akunadmin');
+Route::get('admin/support', [AkunSupportController::class, 'index'])->name('akun.support');
 Route::Post('/admin/akun/tambah-data', [AkunAdminController::class, 'save']);
 Route::delete('/dashboard/admin/akun/user/hapus-akun/{username}', [AkunAdminController::class, 'hapusData']);
 Route::get('/akun/edit/{username}', [AkunAdminController::class, 'edit'])->name('akun.edit');

@@ -13,12 +13,16 @@ class Akun extends Model
         return DB::table('tb_akun')->get();
     }
 
-    public function alldatad(){ 
-        return DB::table('tb_akun')
-            ->join('tb_Role', 'tb_akun.idRole', '=', 'tb_Role.idRole')
-            ->select('tb_akun.*', 'tb_Role.namaRole','tb_Role.created_at')
-            ->get();
-    }
+    public function alldatad()
+{
+    return DB::table('tb_akun')
+        ->leftJoin('tb_role', 'tb_akun.idRole', '=', 'tb_role.idRole')
+        ->select('tb_akun.*', 'tb_role.*') // ambil semua kolom dari kedua tabel
+        ->get();
+}
+
+
+
 
     public function addData($data){
         return DB::table('tb_akun')->insert($data);

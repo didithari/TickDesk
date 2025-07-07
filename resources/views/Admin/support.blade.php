@@ -51,7 +51,7 @@
 <div class="card">
     <div class="card-header">
 <div class=" d-flex flex-column mb-3 flex-md-row justify-content-between align-items-center"> <!-- Menambahkan class align-items-center -->
-<h2>Developer Account</h2>
+<h2>Support Account</h2>
 <div >
 
 
@@ -82,7 +82,6 @@
     <th>Username</th>
     <th>name</th>
     <th>status</th>
-    <th>Role</th>
     <th>created_at</th>
     <th>Aksi</th>
   </tr>
@@ -94,8 +93,6 @@
       <td class="p-3">{{$p->username}}</td>
       <td>{{$p->name}}</td>
       <td>{{$p->status}}</td>
-
-      <td>{{ $p->namaRole ?? '-' }}</td>
       <td>{{$p->created_at}}</td>
         <!-- <img src="gambar" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;"> -->
       
@@ -597,25 +594,6 @@ $("#copyTable").on('click', function() {
 });
 });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                           {{-- <div class="col mb-0">
                               
