@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AkunAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,5 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/admin/akun', [AkunAdminController::class, 'index'])->name('akunadmin');
+Route::Post('/admin/akun/tambah-data', [AkunAdminController::class, 'save']);
+
+
 
 
