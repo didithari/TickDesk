@@ -19,14 +19,35 @@
 
 <li class="menu-item {{ Request::is('admin/akun*') ? 'active' : '' }}">
     <a href="/admin/akun" class="menu-link ">
-        <i class="menu-icon tf-icons ti ti-star"></i>
-        <div data-i18n="Dev Account">Dev Account</div>
+        <i class="menu-icon tf-icons ti ti-user"></i>
+        <div data-i18n="Developer Account">Dev Account</div>
         {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
     </a>
 </li>
 
+<li class="menu-item {{ Request::is('') ? 'active' : '' }}">
+    <a href="" class="menu-link ">
+        <i class="menu-icon tf-icons ti ti-user"></i>
+        <div data-i18n="Support Account">Support Account</div>
+        {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
+    </a>
+</li>
 
-    
+<li class="menu-item {{ Request::is('') ? 'active' : '' }}">
+    <a href="" class="menu-link ">
+        <i class="menu-icon tf-icons ti ti-user"></i>
+        <div data-i18n="Support Ticket">Support Ticket</div>
+        {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
+    </a>
+</li>
+
+<li class="menu-item {{ Request::is('') ? 'active' : '' }}">
+    <a href="" class="menu-link ">
+        <i class="menu-icon tf-icons ti ti-user"></i>
+        <div data-i18n="Supervisor Account">Supervisor Account</div>
+        {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
+    </a>
+</li>    
     
 
   

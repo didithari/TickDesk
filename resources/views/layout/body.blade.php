@@ -9,9 +9,9 @@
           <div class="app-brand demo">
             <a href="/dashboard" class="app-brand-link">
               <span class="app-brand-logo">
-                <img src="{{asset('assetsadmin')}}/img/vmush.png" width="50" height="50" class="cl" alt="">
+                <img src="{{asset('assetsadmin')}}/img/div.png" width="50" height="50" class="cl" alt="">
               </span>
-              <span class="app-brand-text demo menu-text fw-bold">Vmush</span>
+              <span class="app-brand-text demo menu-text fw-bold">TickDesk</span>
             </a>
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">

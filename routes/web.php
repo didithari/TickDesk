@@ -21,6 +21,10 @@ Route::get('/', function () {
 
 Route::get('/admin/akun', [AkunAdminController::class, 'index'])->name('akunadmin');
 Route::Post('/admin/akun/tambah-data', [AkunAdminController::class, 'save']);
+Route::delete('/dashboard/admin/akun/user/hapus-akun/{username}', [AkunAdminController::class, 'hapusData']);
+Route::get('/akun/edit/{username}', [AkunAdminController::class, 'edit'])->name('akun.edit');
+Route::post('/akun/update/{username}', [AkunAdminController::class, 'update'])->name('akun.update');
+
 
 
 

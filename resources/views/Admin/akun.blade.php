@@ -82,7 +82,7 @@
     <th>Username</th>
     <th>name</th>
     <th>status</th>
-    <th>lvlAkun</th>
+    <th>Role</th>
     <th>created_at</th>
     <th>Aksi</th>
   </tr>
@@ -95,7 +95,7 @@
       <td>{{$p->name}}</td>
       <td>{{$p->status}}</td>
 
-      <td>{{$p->lvlAkun}}</td>
+      <td>{{$p->namaRole}}</td>
       <td>{{$p->created_at}}</td>
         <!-- <img src="gambar" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;"> -->
       
@@ -209,12 +209,13 @@
 
                             <div class="col mb-0">
                               <label for="emailLarge" class="form-label">Role</label>
-                              <select name="role" class="select2 form-select">
-                                 <option value="1">Website Developer</option>
-                                <option value="2">Mobile Develepor</option>
-                                <option value="3">Dekstop Developer</option>
-                                
-                              </select>
+                              <select name="role" class="select2 form-select" required>
+                              @foreach ($roles as $r)
+                                <option value="{{ $r->idRole }}">{{ $r->namaRole }}</option>
+                              @endforeach
+                            </select>
+
+
                             </div>
 
                             </div>
