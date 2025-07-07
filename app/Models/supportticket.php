@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Akun extends Model
+class supportticket extends Model
 {
 
     public function alldata(){
-        return DB::table('tb_akun')->get();
+        return DB::table('tb_chat')->get();
     }
+    
 
-    public function alldatad()
-{
+    public function alldatad(){
     return DB::table('tb_akun')
         ->leftJoin('tb_role', 'tb_akun.idRole', '=', 'tb_role.idRole')
         ->select('tb_akun.*', 'tb_role.*') // ambil semua kolom dari kedua tabel

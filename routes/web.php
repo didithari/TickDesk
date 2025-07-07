@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AkunAdminController;
 use App\Http\Controllers\AkunSupportController;
+use App\Http\Controllers\SupportTicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,13 +22,22 @@ Route::get('/', function () {
 
 
 Route::get('/admin/akun', [AkunAdminController::class, 'index'])->name('akunadmin');
-Route::get('admin/support', [AkunSupportController::class, 'index'])->name('akun.support');
 Route::Post('/admin/akun/tambah-data', [AkunAdminController::class, 'save']);
 Route::delete('/dashboard/admin/akun/user/hapus-akun/{username}', [AkunAdminController::class, 'hapusData']);
 Route::get('/akun/edit/{username}', [AkunAdminController::class, 'edit'])->name('akun.edit');
-Route::post('/akun/update/{username}', [AkunAdminController::class, 'update'])->name('akun.update');
+Route::post('/akun/update-data/{username}', [AkunAdminController::class, 'update'])->name('akun.update');
+
+
+Route::get('/admin/support', [AkunSupportController::class, 'index'])->name('akun.support');
+Route::get('/admin/support/edit-data/{username}', [AkunSupportController::class, 'edit']);
+Route::Post('/admin/support/update-data/{username}', [AkunSupportController::class, 'update']);
 
 
 
+Route::get('/admin/ticketsupport', [SupportTicketController::class, 'index'])->name('supportticket');
+// Route::Post('/admin/akun/tambah-data', [SupportTicketController::class, 'save']);
+// Route::delete('/dashboard/admin/akun/user/hapus-akun/{username}', [SupportTicketController::class, 'hapusData']);
+// Route::get('/akun/edit/{username}', [SupportTicketController::class, 'edit'])->name('akun.edit');
+// Route::post('/akun/update-data/{username}', [SupportTicketController::class, 'update'])->name('akun.update');
 
 

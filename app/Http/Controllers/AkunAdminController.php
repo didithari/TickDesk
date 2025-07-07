@@ -30,6 +30,7 @@ class AkunAdminController extends Controller
         ]);
     }
 
+
     public function save(Request $request)
     {
         $request->validate([
@@ -58,6 +59,7 @@ class AkunAdminController extends Controller
             'status' => 'Away',
             'lvlAkun' => '1',
             'idRole' => $request->role,
+            'created_at' => $request->tgl,
             'imgProfile' => $gambarUrl,
         ];
 
@@ -124,7 +126,7 @@ class AkunAdminController extends Controller
         $request->validate([
             'nama' => 'required|max:150',
             'role' => 'required',
-            'upload' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5120'
+            'upload' => ''
         ]);
 
         // Proses update gambar jika ada
@@ -148,4 +150,7 @@ class AkunAdminController extends Controller
 
         return redirect()->route('akunadmin')->with('success', 'Data berhasil diperbarui.');
     }
+
+
+
 }

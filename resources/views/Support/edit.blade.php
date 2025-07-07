@@ -4,10 +4,10 @@
 <div class="">
     <div class="card">
         <div class="card-header">
-            <h4>Edit Data Akun Developer</h4>
+            <h4>Edit Data Akun Support</h4>
         </div>
         <div class="card-body">
-            <form method="POST" action="/akun/update-data/{{$akun->username}}" enctype="multipart/form-data">
+            <form method="POST" action="/admin/support/update-data/{{$akun->username}}" enctype="multipart/form-data">
                 @csrf
 
                 <div class="mb-3">
@@ -20,7 +20,7 @@
                     <input type="text" name="nama" class="form-control" value="{{ $akun->name }}" required>
                 </div>
 
-                <div class="mb-3">
+                {{-- <div class="mb-3">
                     <label for="role" class="form-label">Role</label>
                     <select name="role" class="form-select" required>
                         @foreach ($roles as $role)
@@ -29,7 +29,7 @@
                             </option>
                         @endforeach
                     </select>
-                </div>
+                </div> --}}
 
                 <div class="mb-3">
                     <label for="upload" class="form-label">Foto Profil</label><br>

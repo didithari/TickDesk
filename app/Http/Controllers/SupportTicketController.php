@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Akun;
 use App\Models\Role;
+use App\Models\supportticket;
 use Illuminate\Support\Facades\Hash;
 
-class AkunSupportController extends Controller
+class SupportTicketController extends Controller
 {
     protected $Akun;
     protected $Role;
@@ -19,18 +20,17 @@ class AkunSupportController extends Controller
     {
         $this->Akun = new Akun();
         $this->Role = new Role();
+        $this->supportticket = new supportticket();
     }
 
-    public function index()
-{
-    $alldata = [
-        // hanya ambil data akun dengan lvlAkun = 1 (admin)
-        'alldata' => $this->Akun->where('lvlAkun', 2)->get(),
-        'roles' => $this->Role->all(),
-    ];
-    return view('Support.support', $alldata);
-}
+    public function index(){
 
+        $alldata = [
+            'alldata'=>$this->supportticket->alldata(),
+        ];
+        return view('SupportTicket.data', $alldata);
+    // }
+    }
 
     public function save(Request $request)
     {
@@ -58,7 +58,7 @@ class AkunSupportController extends Controller
             'password' => $request->pass,
             'name' => $request->nama,
             'status' => 'Away',
-            'lvlAkun' => '2',
+            'lvlAkun' => '1',
             'idRole' => $request->role,
             'created_at' => $request->tgl,
             'imgProfile' => $gambarUrl,
@@ -110,7 +110,7 @@ class AkunSupportController extends Controller
             return redirect()->route('akunadmin')->with('error', 'Akun tidak ditemukan.');
         }
 
-        return view('Support.edit', [
+        return view('Admin.akun_edit', [
             'akun' => $akun,
             'roles' => $roles
         ]);
@@ -126,8 +126,8 @@ class AkunSupportController extends Controller
 
         $request->validate([
             'nama' => 'required|max:150',
-            // 'role' => 'required',
-            'upload' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5120'
+            'role' => 'required',
+            'upload' => ''
         ]);
 
         // Proses update gambar jika ada
@@ -146,9 +146,12 @@ class AkunSupportController extends Controller
         }
 
         $akun->name = $request->nama;
-        // $akun->idRole = $request->role;
+        $akun->idRole = $request->role;
         $akun->save();
 
-        return redirect()->route('akun.support')->with('success', 'Data berhasil diperbarui.');
+        return redirect()->route('akunadmin')->with('success', 'Data berhasil diperbarui.');
     }
+
+
+
 }
