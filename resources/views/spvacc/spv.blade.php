@@ -51,7 +51,7 @@
 <div class="card">
     <div class="card-header">
 <div class=" d-flex flex-column mb-3 flex-md-row justify-content-between align-items-center"> <!-- Menambahkan class align-items-center -->
-<h2>Support Account</h2>
+<h2>Supervisor Account</h2>
 <div >
 
 
@@ -104,9 +104,9 @@
           <div class="dropdown-menu">
           <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#largeModal{{$p->username}}"
               ><i class="ti ti-list-details me-1"></i></i> Detail Data</button>
-            <a class="dropdown-item ssedtt" href="/admin/support/edit-data/{{$p->username}}"
+            <a class="dropdown-item ssedtt" href="/akun/edit/{{$p->username}}"
+           
               ><i class="ti ti-pencil me-1"></i> Edit Data</a>
-
               <a class="dropdown-item ssdele" href="javascript:void(0);"
             data-user="{{$p->username}}"
             data-nama="{{$p->name}}">
@@ -130,7 +130,7 @@
                   <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                       <div class="modal-content">
-                        <form  method="POST" action="/admin/support/tambah-data" enctype="multipart/form-data">
+                        <form  method="POST" action="/admin/supervisor/tambah-data" enctype="multipart/form-data">
                           @csrf
                         <div class="modal-header">
                           <h3 class="modal-title fw-bold" id="exampleModalLabel3">Tambah Akun</h3>
@@ -283,7 +283,7 @@
                     <div class="modal-dialog modal-lg" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h3 class="modal-title" id="exampleModalLabel3">Detail Akun Support</h3>
+                          <h3 class="modal-title" id="exampleModalLabel3">Detail Akun</h3>
                           <button
                             type="button"
                             class="btn-close"
@@ -324,8 +324,8 @@
                             </div>
 
                             <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">Tanggal Create</label>
-                              <input type="datetime" class="form-control" value="{{$p->created_at}}" readonly placeholder="" />
+                              <label for="emailLarge" class="form-label">Role</label>
+                              <input type="text" value="{{$p->namaRole}}" readonly class="form-control" placeholder="" />
                             </div>
                             {{-- <div class="col mb-0">
                               <label for="emailLarge" class="form-label">alamat</label>
@@ -336,7 +336,10 @@
                            
                             <div class="row g-2 mb-3">
             
-                          
+                            <div class="col mb-0">
+                              <label for="emailLarge" class="form-label">Tanggal Create</label>
+                              <input type="datetime" class="form-control" value="{{$p->created_at}}" readonly placeholder="" />
+                            </div>
                             </div>
                             
                         </div>
@@ -469,7 +472,7 @@ $(document).ready(function() {
           if (result.isConfirmed) {
               $.ajax({
                   type: 'DELETE', // Ubah method menjadi DELETE
-                  url: '/dashboard/admin/akun/user/hapus-akun/' + user,
+                  url: '/admin/supervisor/user/hapus-akun/' + user,
                   data: {
                       _token: '{{ csrf_token() }}'
                   },

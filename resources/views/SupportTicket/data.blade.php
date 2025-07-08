@@ -21,7 +21,7 @@
           // Tangkap parameter alert dari URL dan tampilkan alert jika ada
           var urlParams = new URLSearchParams(window.location.search);
           var alertParam = urlParams.get('alert');
-          if (alertParam === 'success') {
+          if (alertParam === '  ccess') {
               $('.alert').fadeIn().delay(5000).fadeOut(); // Tampilkan alert, kemudian hilangkan setelah 5 detik
           }
       });
@@ -51,12 +51,8 @@
 <div class="card">
     <div class="card-header">
 <div class=" d-flex flex-column mb-3 flex-md-row justify-content-between align-items-center"> <!-- Menambahkan class align-items-center -->
-<h2>Developer Account</h2>
+<h2>Support Ticket</h2>
 <div >
-
-
-    <div class="btn btn-label-primary dropdown-toggle me-2" data-bs-toggle="dropdown" ><i class="ti ti-file-export me-sm-1"></i> <span class="d-none d-sm-inline-block">Export</span></div>
-    <button type="button" data-bs-toggle="modal" class="btn btn-primary" data-bs-target="#tambahModal"><i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Tambah Data</span></button>
 
     <div class="dropdown-menu">
      {{-- <a class="dropdown-item" href="javascript:void(0);" id="printTable"

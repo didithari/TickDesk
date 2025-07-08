@@ -44,8 +44,8 @@
 </li>
 
 <div class="mt-1"></div>
-<li class="menu-item {{ Request::is('') ? 'active' : '' }}">
-    <a href="" class="menu-link ">
+<li class="menu-item {{ Request::is('admin/Supervisor*') ? 'active' : '' }}">
+    <a href="/admin/Supervisor" class="menu-link ">
         <i class="menu-icon tf-icons ti ti-user"></i>
         <div data-i18n="Supervisor Account">Supervisor Account</div>
         {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
