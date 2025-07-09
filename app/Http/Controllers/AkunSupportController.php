@@ -59,7 +59,7 @@ class AkunSupportController extends Controller
             'name' => $request->nama,
             'status' => 'Away',
             'lvlAkun' => '2',
-            'idRole' => $request->role,
+            'idRole' => '4',
             'created_at' => $request->tgl,
             'imgProfile' => $gambarUrl,
         ];
@@ -67,7 +67,7 @@ class AkunSupportController extends Controller
 
         $this->Akun->addData($data);
 
-        return redirect()->route('akunadmin', ['alert' => 'success']);
+        return redirect()->route('akun.support', ['alert' => 'success']);
     }
 
     public function hapusData($username)
@@ -107,7 +107,7 @@ class AkunSupportController extends Controller
         $roles = Role::all();
 
         if (!$akun) {
-            return redirect()->route('akunadmin')->with('error', 'Akun tidak ditemukan.');
+            return redirect()->route('akun.support')->with('error', 'Akun tidak ditemukan.');
         }
 
         return view('Support.edit', [
@@ -121,7 +121,7 @@ class AkunSupportController extends Controller
         $akun = Akun::where('username', $username)->first();
 
         if (!$akun) {
-            return redirect()->route('akunadmin')->with('error', 'Akun tidak ditemukan.');
+            return redirect()->route('akun.support')->with('error', 'Akun tidak ditemukan.');
         }
 
         $request->validate([

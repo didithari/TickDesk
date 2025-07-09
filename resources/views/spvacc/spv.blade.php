@@ -92,7 +92,15 @@
       <th scope="row">{{$loop->iteration}}</th>
       <td class="p-3">{{$p->username}}</td>
       <td>{{$p->name}}</td>
-      <td>{{$p->status}}</td>
+      <td>
+        @if($p->status === 'Online')
+          <span class="badge rounded-pill" style="background-color: #d2f4e8; color: #1f7f5c; padding: 6px 12px; font-weight: 600;">Online</span>
+        @elseif($p->status === 'Away')
+          <span class="badge rounded-pill" style="background-color: #fef3c7; color: #92400e; padding: 6px 12px; font-weight: 600;">Away</span>
+        @else
+          <span class="badge rounded-pill" style="background-color: #e0e0e0; color: #333; padding: 6px 12px; font-weight: 600;">{{$p->status}}</span>
+        @endif
+      </td>
       <td>{{$p->created_at}}</td>
         <!-- <img src="gambar" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;"> -->
       
@@ -104,7 +112,7 @@
           <div class="dropdown-menu">
           <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#largeModal{{$p->username}}"
               ><i class="ti ti-list-details me-1"></i></i> Detail Data</button>
-            <a class="dropdown-item ssedtt" href="/akun/edit/{{$p->username}}"
+            <a class="dropdown-item ssedtt" href="/admin/supervisor/edit-data/{username}}"
            
               ><i class="ti ti-pencil me-1"></i> Edit Data</a>
               <a class="dropdown-item ssdele" href="javascript:void(0);"
@@ -203,18 +211,6 @@
                                 <option value="3">3</option>
                               </select>
                             </div> --}}
-
-                            <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">Role</label>
-                              <select name="role" class="select2 form-select" required>
-                              @foreach ($roles as $r)
-                                <option value="{{ $r->idRole }}">{{ $r->namaRole }}</option>
-                              @endforeach
-                            </select>
-
-
-                            </div>
-
                             </div>
 
 
@@ -493,7 +489,7 @@ $(document).ready(function() {
                             showConfirmButton: false,
                             timer: 1800
                         }).then(() => {
-                            window.location.href = "{{ route('akunadmin') }}";
+                            window.location.href = "{{ route('akun.supervisor') }}";
                         });
                     }
                 },

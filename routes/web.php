@@ -46,6 +46,8 @@ Route::get('/admin/ticketsupport', [SupportTicketController::class, 'index'])->n
 //Dashboard admin : Akun Supervisor
 Route::get('/admin/Supervisor', [AkunSupervisorController::class, 'index'])->name('akun.supervisor');
 Route::Post('/admin/supervisor/tambah-data', [AkunSupervisorController::class, 'save']);
-Route::delete('/admin/supervisor/user/hapus-akun/{username}', [AkunAdminController::class, 'hapusData']);
+Route::delete('/admin/supervisor/user/hapus-akun/{username}', [AkunSupervisorController::class, 'hapusData']);
+Route::get('/admin/supervisor/edit-data/{username}', [AkunSupervisorController::class, 'edit']);
+Route::Post('/admin/supervisor/update-data/{username}', [AkunSupervisorController::class, 'update']);
 
 

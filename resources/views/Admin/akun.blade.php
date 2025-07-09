@@ -93,8 +93,15 @@
       <th scope="row">{{$loop->iteration}}</th>
       <td class="p-3">{{$p->username}}</td>
       <td>{{$p->name}}</td>
-      <td>{{$p->status}}</td>
-
+      <td>
+        @if($p->status === 'active')
+          <span class="badge rounded-pill" style="background-color: #d2f4e8; color: #1f7f5c; padding: 6px 12px; font-weight: 600;">Active</span>
+        @elseif($p->status === 'Away')
+          <span class="badge rounded-pill" style="background-color: #fef3c7; color: #92400e; padding: 6px 12px; font-weight: 600;">Away</span>
+        @else
+          <span class="badge rounded-pill" style="background-color: #e0e0e0; color: #333; padding: 6px 12px; font-weight: 600;">{{$p->status}}</span>
+        @endif
+      </td>
       <td>{{ $p->namaRole ?? '-' }}</td>
       <td>{{$p->created_at}}</td>
         <!-- <img src="gambar" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;"> -->

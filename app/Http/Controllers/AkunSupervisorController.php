@@ -59,7 +59,7 @@ class AkunSupervisorController extends Controller
             'name' => $request->nama,
             'status' => 'Away',
             'lvlAkun' => '3',
-            'idRole' => $request->role,
+            'idRole' => '4',
             'created_at' => $request->tgl,
             'imgProfile' => $gambarUrl,
         ];
@@ -107,7 +107,7 @@ class AkunSupervisorController extends Controller
         $roles = Role::all();
 
         if (!$akun) {
-            return redirect()->route('akunadmin')->with('error', 'Akun tidak ditemukan.');
+            return redirect()->route('akun.supervisor')->with('error', 'Akun tidak ditemukan.');
         }
 
         return view('Support.edit', [
@@ -121,7 +121,7 @@ class AkunSupervisorController extends Controller
         $akun = Akun::where('username', $username)->first();
 
         if (!$akun) {
-            return redirect()->route('akunadmin')->with('error', 'Akun tidak ditemukan.');
+            return redirect()->route('akun.supervisor')->with('error', 'Akun tidak ditemukan.');
         }
 
         $request->validate([
