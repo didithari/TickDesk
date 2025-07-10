@@ -55,7 +55,7 @@
 
                 <!-- Tombol -->
                 <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                <a href="{{ route('akunadmin') }}" class="btn btn-secondary">Batal</a>
+                <a href="{{ route('akun.supervisor') }}" class="btn btn-secondary">Batal</a>
             </form>
         </div>
     </div>

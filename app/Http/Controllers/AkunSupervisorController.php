@@ -114,7 +114,7 @@ class AkunSupervisorController extends Controller
             return redirect()->route('akun.supervisor')->with('error', 'Akun tidak ditemukan.');
         }
 
-        return view('Support.edit', [
+        return view('spvacc.spv_edit', [
             'akun' => $akun,
             'roles' => $roles
         ]);
@@ -140,9 +140,9 @@ class AkunSupervisorController extends Controller
     if ($request->hasFile('upload')) {
         if ($akun->imgProfile) {
             $oldImage = public_path('GambarProfileAdmin/' . basename($akun->imgProfile));
-            if (File::exists($oldImage)) {
-                File::delete($oldImage);
-            }
+            // if (File::exists($oldImage)) {
+            //     File::delete($oldImage);
+            // }
         }
 
         $file = $request->file('upload');
@@ -159,6 +159,6 @@ class AkunSupervisorController extends Controller
 
     $akun->save();
 
-    return redirect()->route('akunadmin')->with('success', 'Data berhasil diperbarui.');
+    return redirect()->route('akun.supervisor')->with('success', 'Data berhasil diperbarui.');
 }
 }

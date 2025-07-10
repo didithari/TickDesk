@@ -22,12 +22,20 @@ class AkunAdminController extends Controller
     }
 
     public function index(){
-        $all = $this->Akun->alldatad();
-        $filtered = $all->where('lvlAkun', 1); // filter di sini
-        return view('Admin.akun', [
-            'alldata' => $filtered,
-            'roles' => $this->Role->all(),
-        ]);
+        // $all = $this->Akun->alldatad();
+
+        // $filtered = $all->where('lvlAkun', 1); // filter di sini
+        // return view('Admin.akun', [
+        //     'alldata' => $filtered,
+        //     'roles' => $this->Role->all(),
+        // ]);
+
+       $alldata = [
+            'alldata'=>$this->Akun->alldatad(),
+            'roles'=>$this->Akun->alldatad(),
+        ];
+        return view('Admin.akun', $alldata);
+    // }
     }
 
 
@@ -139,9 +147,9 @@ class AkunAdminController extends Controller
     if ($request->hasFile('upload')) {
         if ($akun->imgProfile) {
             $oldImage = public_path('GambarProfileAdmin/' . basename($akun->imgProfile));
-            if (File::exists($oldImage)) {
-                File::delete($oldImage);
-            }
+            // if (File::exists($oldImage)) {
+            //     File::delete($oldImage);
+            // }
         }
 
         $file = $request->file('upload');

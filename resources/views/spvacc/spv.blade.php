@@ -112,9 +112,10 @@
           <div class="dropdown-menu">
           <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#largeModal{{$p->username}}"
               ><i class="ti ti-list-details me-1"></i></i> Detail Data</button>
-            <a class="dropdown-item ssedtt" href="/admin/supervisor/edit-data/{username}}"
-           
-              ><i class="ti ti-pencil me-1"></i> Edit Data</a>
+
+            <a class="dropdown-item ssedtt" href="/admin/supervisor/edit-data/{{$p->username}}">
+              <i class="ti ti-pencil me-1"></i> Edit Data</a>
+
               <a class="dropdown-item ssdele" href="javascript:void(0);"
             data-user="{{$p->username}}"
             data-nama="{{$p->name}}">
@@ -146,10 +147,10 @@
                   <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                       <div class="modal-content">
-                        <form method="POST" action="/admin/akun/tambah-data" enctype="multipart/form-data">
+                        <form method="POST" action="/admin/supervisor/tambah-data" enctype="multipart/form-data">
                           @csrf
                           <div class="modal-header">
-                            <h3 class="modal-title fw-bold" id="exampleModalLabel3">Tambah Akun</h3>
+                            <h3 class="modal-title fw-bold" id="exampleModalLabel3">Tambah Akun Supervisor</h3>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
@@ -198,7 +199,7 @@
                                 <label for="phoneNumber" class="form-label">No HP</label>
                                 <div class="input-group input-group-merge">
                                   <span class="input-group-text">+62</span>
-                                  <input type="tel" name="nohp" class="form-control" pattern="[0-9]{10,13}" required placeholder="81234567890" />
+                                  <input type="number" name="nohp" class="form-control" pattern="[0-9]{10,13}" required placeholder="81234567890" />
                                 </div>
                               </div>
                             </div>

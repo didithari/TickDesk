@@ -136,9 +136,9 @@ class AkunSupportController extends Controller
     if ($request->hasFile('upload')) {
         if ($akun->imgProfile) {
             $oldImage = public_path('GambarProfileAdmin/' . basename($akun->imgProfile));
-            if (File::exists($oldImage)) {
-                File::delete($oldImage);
-            }
+            // if (File::exists($oldImage)) {
+            //     File::delete($oldImage);
+            // }
         }
 
         $file = $request->file('upload');

@@ -149,7 +149,7 @@
                       <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                           <div class="modal-content">
-                            <form method="POST" action="/admin/akun/tambah-data" enctype="multipart/form-data">
+                            <form method="POST" action="/admin/support/tambah-data" enctype="multipart/form-data">
                               @csrf
                               <div class="modal-header">
                                 <h3 class="modal-title fw-bold" id="exampleModalLabel3">Tambah Akun</h3>
@@ -210,7 +210,7 @@
                                 <input type="datetime-local" id="tgl" hidden name="tgl" />
 
                                 <!-- Role -->
-                                <div class="row g-2 mb-3">
+                                {{-- <div class="row g-2 mb-3">
                                   <div class="col mb-0">
                                     <label for="emailLarge" class="form-label">Role</label>
                                     <select name="role" class="select2 form-select" required>
@@ -221,7 +221,7 @@
                                       @endforeach
                                     </select>
                                   </div>
-                                </div>
+                                </div> --}}
 
                                 <!-- Password -->
                                 <div class="row g-2 mb-3">
@@ -494,7 +494,7 @@
                               showConfirmButton: false,
                               timer: 1800
                           }).then(() => {
-                              window.location.href = "{{ route('akunadmin') }}";
+                              window.location.href = "{{ route('akun.support') }}";
                           });
                       }
                   },

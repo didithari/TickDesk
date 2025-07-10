@@ -11,7 +11,7 @@
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="{{asset('assetsadmin')}}/js/ui-modals.js"></script>
-    <!-- <script src="{{asset('assetsadmin')}}/js/pages-account-settings-account.js"></script> -->
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"> --}}
     <script src="{{asset('assetsadmin')}}/vendor/libs/sweetalert2/sweetalert2.js"></script>
 
       <!-- alert data berhasil -->
@@ -73,7 +73,6 @@
 </div>
 </div>
 
-
 <div class="table-responsive text-nowrap mb-2">
 <table id="table-user" class="table table-hove display">
 <thead class="table-light">
@@ -87,13 +86,13 @@
     <th>Aksi</th>
   </tr>
 </thead>
-<tbody class="table-border-bottom-0 mb-5">
+<tbody class="table-border-bottom-0 ">
   @foreach ($alldata as $p)
     <tr>
       <th scope="row">{{$loop->iteration}}</th>
       <td class="p-3">{{$p->username}}</td>
       <td>{{$p->name}}</td>
-      <td>
+     <td>
         @if($p->status === 'active')
           <span class="badge rounded-pill" style="background-color: #d2f4e8; color: #1f7f5c; padding: 6px 12px; font-weight: 600;">Active</span>
         @elseif($p->status === 'Away')
@@ -104,8 +103,8 @@
       </td>
       <td>{{ $p->namaRole ?? '-' }}</td>
       <td>{{$p->created_at}}</td>
-        <!-- <img src="gambar" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;"> -->
-      
+
+
       <td>
         <div class="dropdown">
           <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -128,21 +127,24 @@
     
     </tr>
 @endforeach
-@php
-      $count = count($alldata);
-      $sisa = 4 - ($count % 4);
-    @endphp
-
-    @if($sisa < 4)
-      @for($i = 0; $i < $sisa; $i++)
-        <div class="col-md-3 mb-3"></div>
-      @endfor
-    @endif  
 </tbody>
 
 </table >
 </div>
 </div>
+
+
+
+{{-- @php
+      $count = count($alldata);
+      $sisa = 4 - ($count % 4);
+@endphp
+
+    @if($sisa < 4)
+      @for($i = 0; $i < $sisa; $i++)
+        <div class="col-md-3 mb-3"></div>
+      @endfor
+    @endif   --}}
                     
                  <!--  Modal Tambah -->
                     <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
@@ -254,27 +256,8 @@
                         </div>
                       </div>
                     </div>
+                  
                     <!--  End Modal Tambah -->
-
-
-                  <script>
-                    // Fungsi untuk mengatur nilai elemen input datetime-local menjadi tanggal dan waktu saat ini
-                    function setDateTime() {
-                        var now = new Date(); // Mendapatkan tanggal dan waktu saat ini
-                        var year = now.getFullYear();
-                        var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Bulan dimulai dari 0
-                        var day = now.getDate().toString().padStart(2, '0');
-                        var hours = now.getHours().toString().padStart(2, '0');
-                        var minutes = now.getMinutes().toString().padStart(2, '0');
-                        var dateTimeString = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
-                        document.getElementById('tgl').value = dateTimeString; // Mengatur nilai elemen input
-                    }
-            
-                    // Panggil fungsi setDateTime saat halaman dimuat
-                    setDateTime();
-                </script>
-
-
 
 
                   <!-- Detail Modal -->
@@ -595,37 +578,23 @@ $("#copyTable").on('click', function() {
 
 
 
+                  <script>
+                    // Fungsi untuk mengatur nilai elemen input datetime-local menjadi tanggal dan waktu saat ini
+                    function setDateTime() {
+                        var now = new Date(); // Mendapatkan tanggal dan waktu saat ini
+                        var year = now.getFullYear();
+                        var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Bulan dimulai dari 0
+                        var day = now.getDate().toString().padStart(2, '0');
+                        var hours = now.getHours().toString().padStart(2, '0');
+                        var minutes = now.getMinutes().toString().padStart(2, '0');
+                        var dateTimeString = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+                        document.getElementById('tgl').value = dateTimeString; // Mengatur nilai elemen input
+                    }
+            
+                    // Panggil fungsi setDateTime saat halaman dimuat
+                    setDateTime();
+                </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                          {{-- <div class="col mb-0">
-                              
-                          <label class="form-label" for="phoneNumber">No HP</label>
-                        <div class="input-group input-group-merge">
-                          <span class="input-group-text">ID (+62)</span>
-                          <input
-                            type="number"
-                             required
-                            name="nohp"
-                            class="form-control"
-                            placeholder="" />
-                        </div>
-                          
-                            </div> --}}
 
 
 @endsection
