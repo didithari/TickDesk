@@ -128,6 +128,16 @@
     
     </tr>
 @endforeach
+@php
+      $count = count($alldata);
+      $sisa = 4 - ($count % 4);
+    @endphp
+
+    @if($sisa < 4)
+      @for($i = 0; $i < $sisa; $i++)
+        <div class="col-md-3 mb-3"></div>
+      @endfor
+    @endif  
 </tbody>
 
 </table >
