@@ -26,6 +26,15 @@
 </li>
 
 <div class="mt-1"></div>
+<li class="menu-item {{ Request::is('admin/Supervisor*') ? 'active' : '' }}">
+    <a href="/admin/Supervisor" class="menu-link ">
+        <i class="menu-icon tf-icons ti ti-user"></i>
+        <div data-i18n="Supervisor Account">Supervisor Account</div>
+        {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
+    </a>
+</li>   
+
+<div class="mt-1"></div>
 <li class="menu-item {{ Request::is('admin/support*') ? 'active' : '' }}">
     <a href="/admin/support" class="menu-link ">
         <i class="menu-icon tf-icons ti ti-user"></i>
@@ -44,14 +53,14 @@
 </li>
 
 <div class="mt-1"></div>
-<li class="menu-item {{ Request::is('admin/Supervisor*') ? 'active' : '' }}">
-    <a href="/admin/Supervisor" class="menu-link ">
-        <i class="menu-icon tf-icons ti ti-user"></i>
-        <div data-i18n="Supervisor Account">Supervisor Account</div>
+<li class="menu-item {{ Request::is('admin/role*') ? 'active' : '' }}">
+    <a href="/admin/role" class="menu-link ">
+        <i class="menu-icon tf-icons ti ti-id-badge"></i>
+        <div data-i18n="Role">Role</div>
         {{-- <div class="badge bg-label-primary rounded-pill ms-auto">3</div> --}}
     </a>
-</li>    
-    
+</li>
+
 
   
 

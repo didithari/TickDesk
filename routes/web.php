@@ -5,6 +5,7 @@ use App\Http\Controllers\AkunAdminController;
 use App\Http\Controllers\AkunSupportController;
 use App\Http\Controllers\AkunSupervisorController;
 use App\Http\Controllers\SupportTicketController;
+use App\Http\Controllers\RoleController;
 
 
 /*
@@ -50,4 +51,9 @@ Route::delete('/admin/supervisor/user/hapus-akun/{username}', [AkunSupervisorCon
 Route::get('/admin/supervisor/edit-data/{username}', [AkunSupervisorController::class, 'edit']);
 Route::Post('/admin/supervisor/update-data/{username}', [AkunSupervisorController::class, 'update']);
 
+// Role
+Route::get('/admin/role', [RoleController::class, 'index'])->name('role.role');
+Route::post('/admin/role/store', [RoleController::class, 'store'])->name('role.store');
+Route::post('/admin/role/update/{id}', [RoleController::class, 'update'])->name('role.update');
+Route::delete('/admin/role/delete/{id}', [RoleController::class, 'destroy'])->name('role.delete');
 

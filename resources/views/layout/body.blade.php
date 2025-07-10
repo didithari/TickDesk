@@ -72,23 +72,12 @@
                     <script>
                       document.write(new Date().getFullYear());
                     </script>
-                    , Powerd By <a href="#" target="_blank" class="fw-semibold">Vmush</a>
+                    , Powerd By <a href="#" target="_blank" class="fw-semibold">TickDesk</a>
                   </div>
                   <div>
                     {{-- <a onclick="showAlert()" class="footer-link me-4"
                       >License</a
                     > --}}
-                    <!-- <button href="https://1.envato.market/pixinvent_portfolio" target="_blank" class="footer-link me-4"
-                      >More Themes</button
-                    > -->
-
-                    <a
-                      onclick="showAlert()"
-                      
-                      class="footer-link me-4"
-                      >Dokumentasi</a
-                    >
-
                     {{-- <a onclick="showAlert()" class="footer-link d-none d-sm-inline-block"
                       >Dukungan</a
                     > --}}
