@@ -18,18 +18,31 @@
                  
                     <h5 class="mt-3"><span id="tanggalwaktu"></span></h5>
                     <script>
-                        var tw = new Date();
-                    if (tw.getTimezoneOffset() == 0) (a=tw.getTime() + ( 7 *60*60*1000))
-                    else (a=tw.getTime());
-                    tw.setTime(a);
-                    var tahun= tw.getFullYear ();
-                    var hari= tw.getDay ();
-                    var bulan= tw.getMonth ();
-                    var tanggal= tw.getDate ();
-                    var hariarray=new Array("Minggu,","Senin,","Selasa,","Rabu,","Kamis,","Jum'at,","Sabtu,");
-                    var bulanarray=new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","Nopember","Desember");
-                    document.getElementById("tanggalwaktu").innerHTML = hariarray[hari]+" "+tanggal+" "+bulanarray[bulan]+" "+tahun+" :  " + ((tw.getHours() < 10) ? "0" : "") + tw.getHours() + ":" + ((tw.getMinutes() < 10)? "0" : "") + tw.getMinutes() + (" WIB ");
-                        </script>
+                        function updateTanggalWaktu() {
+                            const now = new Date();
+                            const offset = now.getTimezoneOffset() === 0 ? 7 : 0; // WIB offset
+                            now.setHours(now.getHours() + offset);
+
+                            const hariarray = ["Minggu,", "Senin,", "Selasa,", "Rabu,", "Kamis,", "Jum'at,", "Sabtu,"];
+                            const bulanarray = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "Nopember", "Desember"];
+
+                            const hari = hariarray[now.getDay()];
+                            const tanggal = now.getDate();
+                            const bulan = bulanarray[now.getMonth()];
+                            const tahun = now.getFullYear();
+                            const jam = now.getHours().toString().padStart(2, '0');
+                            const menit = now.getMinutes().toString().padStart(2, '0');
+                            const detik = now.getSeconds().toString().padStart(2, '0');
+
+                            document.getElementById("tanggalwaktu").innerHTML =
+                                `${hari} ${tanggal} ${bulan} ${tahun} : ${jam}:${menit}:${detik} WIB`;
+                        }
+
+                        setInterval(updateTanggalWaktu, 1000); // Update setiap 1 detik
+                        updateTanggalWaktu(); // Panggil pertama kali
+                    </script>
+
+
                  
                 </div>
               </div>

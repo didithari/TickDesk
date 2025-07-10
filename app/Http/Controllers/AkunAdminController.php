@@ -36,6 +36,8 @@ class AkunAdminController extends Controller
         $request->validate([
             'username' => 'required|max:255',
             'nama' => 'max:150',
+            'email' => '',
+            'nohp' => '',
             'role' => '',
             'pass' => '',
             'status' => '',
@@ -56,6 +58,8 @@ class AkunAdminController extends Controller
             'username' => $request->username,
             'password' => $request->pass,
             'name' => $request->nama,
+            'email' => $request->email,
+            'nohp' => $request->nohp,
             'status' => 'Away',
             'lvlAkun' => '1',
             'idRole' => $request->role,
@@ -115,41 +119,47 @@ class AkunAdminController extends Controller
         ]);
     }
 
-    public function update(Request $request, $username)
-    {
-        $akun = Akun::where('username', $username)->first();
+    public function update(Request $request, $username){
+    $akun = Akun::where('username', $username)->first();
 
-        if (!$akun) {
-            return redirect()->route('akunadmin')->with('error', 'Akun tidak ditemukan.');
-        }
-
-        $request->validate([
-            'nama' => 'required|max:150',
-            'role' => 'required',
-            'upload' => ''
-        ]);
-
-        // Proses update gambar jika ada
-        if ($request->hasFile('upload')) {
-            if ($akun->imgProfile) {
-                $oldImage = public_path('GambarProfileAdmin/' . basename($akun->imgProfile));
-                if (File::exists($oldImage)) {
-                    File::delete($oldImage);
-                }
-            }
-
-            $file = $request->file('upload');
-            $filename = date('Ymd') . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('GambarProfileAdmin/'), $filename);
-            $akun->imgProfile = asset('GambarProfileAdmin/' . $filename);
-        }
-
-        $akun->name = $request->nama;
-        $akun->idRole = $request->role;
-        $akun->save();
-
-        return redirect()->route('akunadmin')->with('success', 'Data berhasil diperbarui.');
+    if (!$akun) {
+        return redirect()->route('akunadmin')->with('error', 'Akun tidak ditemukan.');
     }
+
+    // ✅ Validasi input
+    $request->validate([
+        'nama' => 'required|max:150',
+        'email' => 'required|email',
+        'nohp' => 'required|max:20',
+        'role' => 'required',
+        'upload' => 'nullable|mimes:jpg,jpeg,png,gif|max:5120'
+    ]);
+
+    // ✅ Update gambar jika ada
+    if ($request->hasFile('upload')) {
+        if ($akun->imgProfile) {
+            $oldImage = public_path('GambarProfileAdmin/' . basename($akun->imgProfile));
+            if (File::exists($oldImage)) {
+                File::delete($oldImage);
+            }
+        }
+
+        $file = $request->file('upload');
+        $filename = date('Ymd') . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('GambarProfileAdmin/'), $filename);
+        $akun->imgProfile = asset('GambarProfileAdmin/' . $filename);
+    }
+
+    // ✅ Update data lain
+    $akun->name = $request->nama;
+    $akun->email = $request->email;
+    $akun->nohp = $request->nohp;
+    $akun->idRole = $request->role;
+
+    $akun->save();
+
+    return redirect()->route('akunadmin')->with('success', 'Data berhasil diperbarui.');
+}
 
 
 

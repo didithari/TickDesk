@@ -132,126 +132,103 @@
 </div>
 </div>
 
-
-                    
-        <!--  Modal Tambah-->
+              <!--  Modal Tambah -->
                   <div class="modal fade" id="tambahModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                       <div class="modal-content">
-                        <form  method="POST" action="/admin/supervisor/tambah-data" enctype="multipart/form-data">
+                        <form method="POST" action="/admin/akun/tambah-data" enctype="multipart/form-data">
                           @csrf
-                        <div class="modal-header">
-                          <h3 class="modal-title fw-bold" id="exampleModalLabel3">Tambah Akun</h3>
-                          <br>
-                         
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                        <div class="row">
-                          <hr class="my-0 mb-4" />
-                        <div class="d-flex align-items-start align-items-sm-center mb-3 gap-4">
-                    <img
-                      src=""
-                      alt="user-avatar"
-                      name="upload"
-                      class="d-block w-px-100 h-px-100 rounded"
-                      id="uploadedAvatar" />
-                      <div class="button-wrapper">
-                      <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
-                        <span class="d-none d-sm-block">Upload Foto Baru</span>
-                        <i class="ti ti-upload d-block d-sm-none"></i>
-                        <input
-                          type="file"
-                          id="upload"
-                          name="upload"
-                          class="account-file-input"
-                          hidden
-                          accept="image/png, image/jpeg" />
-                      </label>
-                      <button type="button" class="btn btn-label-secondary account-image-reset mb-3">
-                        <i class="ti ti-refresh-dot d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Reset</span>
-                      </button>
-
-                      <div class="text-muted">Diperbolehkan bentuk JPG, GIF or PNG. Maximum 5MB</div>
-                    </div>
-
-                  </div>
-                      
-                            <div class="col mb-3">
-                              <label for="nameLarge" class="form-label">Username</label>
-                              <input type="text" name="username" required class="form-control" placeholder="AdminOne" />
-                            </div>
+                          <div class="modal-header">
+                            <h3 class="modal-title fw-bold" id="exampleModalLabel3">Tambah Akun</h3>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
-                          
-                          <div class="row g-2 mb-3">
-                            <div class="col mb-0">
-                              <label for="dobLarge" class="form-label">Nama</label>
-                              <input type="text" id="inputHuruf" oninput="validateInput(this)" name="nama" required class="form-control" placeholder="Admin One" />
-                               <span id="error-message" style="color: cyan;"></span>
+                          <div class="modal-body">
+                            <div class="row">
+                              <hr class="my-0 mb-4" />
+                              <div class="d-flex align-items-start align-items-sm-center mb-3 gap-4">
+                                <img src="" alt="user-avatar" name="upload" class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
+                                <div class="button-wrapper">
+                                  <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
+                                    <span class="d-none d-sm-block">Upload Foto Baru</span>
+                                    <i class="ti ti-upload d-block d-sm-none"></i>
+                                    <input type="file" id="upload" name="upload" class="account-file-input" hidden accept="image/png, image/jpeg" />
+                                  </label>
+                                  <button type="button" class="btn btn-label-secondary account-image-reset mb-3">
+                                    <i class="ti ti-refresh-dot d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Reset</span>
+                                  </button>
+                                  <div class="text-muted">Diperbolehkan bentuk JPG, GIF atau PNG. Maksimal 5MB</div>
+                                </div>
+                              </div>
+
+                              <!-- Username -->
+                              <div class="col mb-3">
+                                <label for="nameLarge" class="form-label">Username</label>
+                                <input type="text" name="username" required class="form-control" placeholder="AdminOne" />
+                              </div>
                             </div>
 
-                          </div>
-                          
+                            <!-- Nama -->
+                            <div class="row g-2 mb-3">
+                              <div class="col mb-0">
+                                <label for="dobLarge" class="form-label">Nama</label>
+                                <input type="text" id="inputHuruf" oninput="validateInput(this)" name="nama" required class="form-control" placeholder="Admin One" />
+                                <span id="error-message" style="color: cyan;"></span>
+                              </div>
+                            </div>
 
+                            <!-- Email & No HP -->
+                            <div class="row g-2 mb-3">
+                              <div class="col mb-0">
+                                <label for="emailInput" class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control" required placeholder="example@mail.com" />
+                              </div>
 
-                            
+                              <div class="col mb-0">
+                                <label for="phoneNumber" class="form-label">No HP</label>
+                                <div class="input-group input-group-merge">
+                                  <span class="input-group-text">+62</span>
+                                  <input type="tel" name="nohp" class="form-control" pattern="[0-9]{10,13}" required placeholder="81234567890" />
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Hidden datetime -->
                             <input type="datetime-local" id="tgl" hidden name="tgl" />
 
+                            <!-- Password -->
                             <div class="row g-2 mb-3">
-                            {{-- <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">Lvl Akun</label>
-                              <select name="lvlakun" class="select2 form-select">
-                               <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                              </select>
-                            </div> --}}
+                              <div class="col mb-0">
+                                <div class="form-password-toggle">
+                                  <label class="form-label" for="basic-default-password12">Password</label>
+                                  <div class="input-group">
+                                    <input
+                                      type="password"
+                                      name="pass"
+                                      class="form-control"
+                                      id="basic-default-password12"
+                                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                      aria-describedby="basic-default-password2" />
+                                    <span id="basic-default-password2" class="input-group-text cursor-pointer">
+                                      <i class="ti ti-eye-off"></i>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
 
+                          </div>
 
-                           <div class="row g-2 mb-3">
-
-                            <div class="col mb-0">
-                           <div class="form-password-toggle">
-                        <label class="form-label" for="basic-default-password12">Password</label>
-                        <div class="input-group">
-                          <input
-                            type="password"
-                            name="pass"
-                            class="form-control"
-                            id="basic-default-password12"
-                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                            aria-describedby="basic-default-password2" />
-                          <span id="basic-default-password2" class="input-group-text cursor-pointer"
-                            ><i class="ti ti-eye-off"></i
-                          ></span>
-                        </div>
-                      </div>
-                            </div>
-
-                            </div>
-                            
-                        </div>
-                        <div class="modal-footer">
-                        
-                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                            Close
-                          </button>
-                          
-                          <button type="submit" name="submit"  class="btn btn-primary me-2">Tambah Data</button>
-                          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-                        </div>
+                          <!-- Footer -->
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" name="submit" class="btn btn-primary me-2">Tambah Data</button>
+                          </div>
                         </form>
                       </div>
-                      
                     </div>
                   </div>
-                  <!--  Modal Tambah-->
+                  <!--  End Modal Tambah -->
 
                   <script>
                     // Fungsi untuk mengatur nilai elemen input datetime-local menjadi tanggal dan waktu saat ini
@@ -280,75 +257,70 @@
                       <div class="modal-content">
                         <div class="modal-header">
                           <h3 class="modal-title" id="exampleModalLabel3">Detail Akun</h3>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <br>
                         <hr class="my-0" />
                         <div class="modal-body">
-                        <div class="d-flex align-items-start align-items-sm-center mb-3 gap-4">
-                    <img
-                      src="{{$p->imgProfile}}"
-                      alt="user-avatar"
-                      class="d-block w-px-100 h-px-100 rounded"
-                      id="uploadedAvatar" />
+                          <div class="d-flex align-items-start align-items-sm-center mb-3 gap-4">
+                            <img
+                              src="{{$p->imgProfile}}"
+                              alt="user-avatar"
+                              class="d-block w-px-100 h-px-100 rounded"
+                              id="uploadedAvatar" />
+                          </div>
 
-                  </div>
+                          <!-- Username -->
                           <div class="row">
                             <div class="col mb-3">
                               <label for="nameLarge" class="form-label">Username</label>
                               <input type="text" readonly class="form-control" placeholder="" value="{{$p->username}}" />
                             </div>
                           </div>
+
+                          <!-- Nama -->
                           <div class="row g-2 mb-3">
                             <div class="col mb-0">
                               <label for="dobLarge" class="form-label">Nama</label>
                               <input type="text" readonly class="form-control" placeholder="" value="{{$p->name}}" />
                             </div>
+                          </div>
+
+                          <!-- Email dan No HP -->
+                          <div class="row g-2 mb-3">
+                            <div class="col mb-0">
+                              <label for="email" class="form-label">Email</label>
+                              <input type="text" readonly class="form-control" value="{{$p->email ?? '-'}}" />
+                            </div>
+                            <div class="col mb-0">
+                              <label for="nohp" class="form-label">No HP</label>
+                              <input type="text" readonly class="form-control" value="{{$p->nohp ?? '-'}}" />
+                            </div>
+                          </div>
+
+                          <!-- Status dan lainnya -->
+                          <div class="row g-2 mb-3">
                             <div class="col mb-0">
                               <label for="emailLarge" class="form-label">Status</label>
                               <input type="text" value="{{$p->status}}" readonly class="form-control" placeholder="" />
                             </div>
-                          </div>
+
                           <div class="row g-2 mb-3">
-                          <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">Lv Akun</label>
-                              <input type="text" value="{{$p->lvlAkun}}" readonly class="form-control" placeholder="" />
-                            </div>
-
-                            <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">Role</label>
-                              <input type="text" value="{{$p->namaRole}}" readonly class="form-control" placeholder="" />
-                            </div>
-                            {{-- <div class="col mb-0">
-                              <label for="emailLarge" class="form-label">alamat</label>
-                              <input type="text" value="{{$p->created_at}}" readonly class="form-control" placeholder="" />
-                            </div> --}}
-
-                            </div>
-                           
-                            <div class="row g-2 mb-3">
-            
                             <div class="col mb-0">
                               <label for="emailLarge" class="form-label">Tanggal Create</label>
                               <input type="datetime" class="form-control" value="{{$p->created_at}}" readonly placeholder="" />
                             </div>
-                            </div>
-                            
+                          </div>
+
                         </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                            Close
-                          </button>
-                          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                         </div>
                       </div>
                     </div>
                   </div>
                   @endforeach
+                  <!-- End Detail Modal -->
                
 
 

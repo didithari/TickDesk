@@ -39,6 +39,8 @@ class Akun extends Model
         'username',
         'password',
         'name',
+        'email',
+        'nohp',
         'status',
         'lvlAkun',
         'imgProfile',
