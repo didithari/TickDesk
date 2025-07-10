@@ -12,7 +12,7 @@ class RoleController extends Controller
     public function index()
     {
         $data = Role::all();
-        return view('role.role', ['roles' => $data]); // sesuaikan dengan view kamu
+        return view('Role.role', ['roles' => $data]); // sesuaikan dengan view kamu
     }
 
     // Simpan data role baru
