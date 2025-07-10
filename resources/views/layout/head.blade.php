@@ -17,7 +17,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{asset('assetsadmin')}}/img/vmush120.png" />
+    <link rel="icon" type="image/x-icon" href="{{asset('assetsadmin')}}/img/div.png" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

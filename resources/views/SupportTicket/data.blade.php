@@ -90,8 +90,21 @@
       <td >{{$p->id}}</td>
       <td class="p-3">{{$p->title}}</td>
       <td>{{$p->tanggal}}</td>
-      <td>{{$p->status}}</td>
+      <td>
+        @php
+          $status = strtolower($p->status);
+        @endphp
 
+        @if($status == 'resolved')
+          <span class="badge-status badge-resolved">Resolved</span>
+        @elseif($status == 'in_progress')
+          <span class="badge-status badge-inprogress">In Progress</span>
+        @elseif($status == 'open')
+          <span class="badge-status badge-open">Open</span>
+        @else
+          <span class="badge bg-secondary">Unknown</span>
+        @endif
+      </td>
       {{-- <td>{{ $p->toRole }}</td> --}}
       <td>{{$p->created_at}}</td>
         <!-- <img src="gambar" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;"> -->
@@ -372,6 +385,29 @@ color:#eaeaea;
 background-color:#DE3163;
 color:#eaeaea;
 }
+
+.badge-status {
+    font-weight: 600;
+    font-size: 13px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    display: inline-block;
+  }
+
+  .badge-resolved {
+    background-color: #d2f8d2;
+    color: #047857;
+  }
+
+  .badge-inprogress {
+    background-color: #fff7cc;
+    color: #92400e;
+  }
+
+  .badge-open {
+    background-color: #ffe4e4;
+    color: #991b1b;
+  }
 
 .ssedtt:hover{
 background-color:#53B956;
