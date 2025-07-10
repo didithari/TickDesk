@@ -34,18 +34,6 @@
                     <input type="text" name="nohp" class="form-control" value="{{ $akun->nohp ?? '' }}" required>
                 </div>
 
-                <!-- Role -->
-                <div class="mb-3">
-                    <label for="role" class="form-label">Role</label>
-                    <select name="role" class="form-select" required>
-                        @foreach ($roles as $role)
-                            <option value="{{ $role->idRole }}" {{ $akun->idRole == $role->idRole ? 'selected' : '' }}>
-                                {{ $role->namaRole }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
                 <!-- Foto Profil -->
                 <div class="mb-3">
                     <label for="upload" class="form-label">Foto Profil</label><br>
