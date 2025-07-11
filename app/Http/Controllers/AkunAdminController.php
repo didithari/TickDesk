@@ -22,13 +22,13 @@ class AkunAdminController extends Controller
     }
 
     public function index(){
-        // $all = $this->Akun->alldatad();
+        $all = $this->Akun->alldatad();
 
-        // $filtered = $all->where('lvlAkun', 1); // filter di sini
-        // return view('Admin.akun', [
-        //     'alldata' => $filtered,
-        //     'roles' => $this->Role->all(),
-        // ]);
+        $filtered = $all->where('lvlAkun', 1); // filter di sini
+        return view('Admin.akun', [
+            'alldata' => $filtered,
+            'roles' => $this->Role->all(),
+        ]);
 
        $alldata = [
             'alldata'=>$this->Akun->alldatad(),

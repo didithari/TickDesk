@@ -8,6 +8,9 @@ use App\Http\Controllers\SupportTicketController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ChatDevController;
 use App\Http\Controllers\DeveloperController;
+use App\Http\Controllers\SPVTicketController;
+use App\Http\Controllers\SupportChatController;
+
 
 
 /*
@@ -60,8 +63,11 @@ Route::post('/admin/role/update/{id}', [RoleController::class, 'update'])->name(
 Route::delete('/admin/role/delete/{id}', [RoleController::class, 'destroy'])->name('role.delete');
 
 
-//belum done
+//belum done (revisi terus)
 Route::get('dev/chatdev', [ChatDevController::class, 'index'])->name('Chatdev.chatdev');
 
 Route::get('dev/taskticket', [DeveloperController::class, 'index'])->name('Developer.developer');
+Route::get('/spv-tickets', [SPVTicketController::class, 'index'])->name('SPV.spv');
+Route::get('/Support/chat', [SupportChatController::class, 'index'])->name('Chatsup.chatsup');
+Route::get('/Support/chat/{id}', [SupportChatController::class, 'show'])->name('Chatsup.chatsup.show');
 
