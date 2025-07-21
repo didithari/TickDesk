@@ -93,8 +93,8 @@
         <td class="p-3">{{$p->username}}</td>
         <td>{{$p->name}}</td>
         <td>
-          @if($p->status === 'Online')
-            <span class="badge rounded-pill" style="background-color: #d2f4e8; color: #1f7f5c; padding: 6px 12px; font-weight: 600;">Online</span>
+          @if($p->status === 'active')
+            <span class="badge rounded-pill" style="background-color: #d2f4e8; color: #1f7f5c; padding: 6px 12px; font-weight: 600;">Active</span>
           @elseif($p->status === 'Away')
             <span class="badge rounded-pill" style="background-color: #fef3c7; color: #92400e; padding: 6px 12px; font-weight: 600;">Away</span>
           @else

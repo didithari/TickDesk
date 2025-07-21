@@ -31,7 +31,7 @@
                 <!-- No HP -->
                 <div class="mb-3">
                     <label for="nohp" class="form-label">No HP</label>
-                    <input type="text" name="nohp" class="form-control" value="{{ $akun->nohp ?? '' }}" required>
+                    <input type="text" name="nohp" class="form-control" value="{{ $akun->phone_number ?? '' }}" required>
                 </div>
 
                 <!-- Role -->
@@ -39,8 +39,8 @@
                     <label for="role" class="form-label">Role</label>
                     <select name="role" class="form-select" required>
                         @foreach ($roles as $role)
-                            <option value="{{ $role->idRole }}" {{ $akun->idRole == $role->idRole ? 'selected' : '' }}>
-                                {{ $role->namaRole }}
+                            <option value="{{ $role->id }}" {{ $akun->devRoleID == $role->id ? 'selected' : '' }}>
+                                {{ $role->roleName }}
                             </option>
                         @endforeach
                     </select>

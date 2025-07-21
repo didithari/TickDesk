@@ -101,7 +101,7 @@
           <span class="badge rounded-pill" style="background-color: #e0e0e0; color: #333; padding: 6px 12px; font-weight: 600;">{{$p->status}}</span>
         @endif
       </td>
-      <td>{{ $p->namaRole ?? '-' }}</td>
+      <td>{{ $p->roleName ?? '-' }}</td>
       <td>{{$p->created_at}}</td>
 
 
@@ -216,8 +216,8 @@
                                   <label for="emailLarge" class="form-label">Role</label>
                                   <select name="role" class="select2 form-select" required>
                                     @foreach ($roles as $r)
-                                      @if ($r->idRole != 0)
-                                        <option value="{{ $r->idRole }}">{{ $r->namaRole }}</option>
+                                      @if ($r->id != 0)
+                                        <option value="{{ $r->id }}">{{ $r->roleName }}</option>
                                       @endif
                                     @endforeach
                                   </select>
@@ -304,7 +304,7 @@
                             </div>
                             <div class="col mb-0">
                               <label for="nohp" class="form-label">No HP</label>
-                              <input type="text" readonly class="form-control" value="{{$p->nohp ?? '-'}}" />
+                              <input type="text" readonly class="form-control" value="{{$p->phone_number ?? '-'}}" />
                             </div>
                           </div>
 
@@ -317,7 +317,7 @@
                           <div class="row g-2 mb-3">
                             <div class="col mb-0">
                               <label for="emailLarge" class="form-label">Role</label>
-                              <input type="text" value="{{$p->namaRole}}" readonly class="form-control" placeholder="" />
+                              <input type="text" value="{{$p->roleName}}" readonly class="form-control" placeholder="" />
                             </div>
                           </div>
 
