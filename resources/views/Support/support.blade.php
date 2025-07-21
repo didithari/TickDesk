@@ -321,7 +321,7 @@
                               </div>
                               <div class="col mb-0">
                                 <label for="nohp" class="form-label">No HP</label>
-                                <input type="text" readonly class="form-control" value="{{$p->nohp ?? '-'}}" />
+                                <input type="text" readonly class="form-control" value="{{$p->phone_number ?? '-'}}" />
                               </div>
                             </div>
 
@@ -331,13 +331,6 @@
                                 <label for="emailLarge" class="form-label">Status</label>
                                 <input type="text" value="{{$p->status}}" readonly class="form-control" placeholder="" />
                               </div>
-                            <div class="row g-2 mb-3">
-                              <div class="col mb-0">
-                                <label for="emailLarge" class="form-label">Role</label>
-                                <input type="text" value="{{$p->namaRole}}" readonly class="form-control" placeholder="" />
-                              </div>
-                            </div>
-
                             <div class="row g-2 mb-3">
                               <div class="col mb-0">
                                 <label for="emailLarge" class="form-label">Tanggal Create</label>

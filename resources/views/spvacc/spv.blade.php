@@ -305,7 +305,7 @@
                             </div>
                             <div class="col mb-0">
                               <label for="nohp" class="form-label">No HP</label>
-                              <input type="text" readonly class="form-control" value="{{$p->nohp ?? '-'}}" />
+                              <input type="text" readonly class="form-control" value="{{$p->phone_number ?? '-'}}" />
                             </div>
                           </div>
 

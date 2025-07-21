@@ -6,44 +6,45 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class supportticket extends Model
+class SupportTicket extends Model
 {
-
-    public function alldata(){
-        return DB::table('tb_chat')->get();
-    }
-    
-
-    public function alldatad(){
-    return DB::table('tb_akun')
-        ->leftJoin('tb_role', 'tb_akun.idRole', '=', 'tb_role.idRole')
-        ->select('tb_akun.*', 'tb_role.*') // ambil semua kolom dari kedua tabel
-        ->get();
-}
-
-
-    public function addData($data){
-        return DB::table('tb_akun')->insert($data);
-      }
-
-
-
     use HasFactory;
 
-    protected $table = 'tb_akun';
-    protected $primaryKey = 'username';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    protected $table = 'devTickets';
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $fillable = [
-        'username',
-        'password',
-        'name',
+        'supportID',
+        'devID',
+        'roleID',
+        'title',
         'status',
-        'lvlAkun',
-        'imgProfile',
-        'create_at',
+        'link',
+        'created_at',
         'updated_at',
-        'idRole',
     ];
+
+    // Ambil semua data devTickets
+    public function allData()
+    {
+        return DB::table($this->table)->get();
+    }
+
+    // Ambil data dengan join ke user support dan developer
+    public function allWithUsers()
+    {
+        return DB::table($this->table)
+            ->leftJoin('users as support', 'devTickets.supportID', '=', 'support.id')
+            ->leftJoin('users as dev', 'devTickets.devID', '=', 'dev.id')
+            ->select('devTickets.*', 'support.name as support_name', 'dev.name as dev_name')
+            ->get();
+    }
+
+    // Tambah data
+    public function addData($data)
+    {
+        return DB::table($this->table)->insert($data);
+    }
 }

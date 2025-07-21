@@ -89,7 +89,7 @@
       {{-- <th scope="row">{{$loop->iteration}}</th> --}}
       <td >{{$p->id}}</td>
       <td class="p-3">{{$p->title}}</td>
-      <td>{{$p->tanggal}}</td>
+      <td>{{$p->created_at}}</td>
       <td>
         @php
           $status = strtolower($p->status);
@@ -97,7 +97,7 @@
 
         @if($status == 'resolved')
           <span class="badge-status badge-resolved">Resolved</span>
-        @elseif($status == 'in_progress')
+        @elseif($status == 'in progress')
           <span class="badge-status badge-inprogress">In Progress</span>
         @elseif($status == 'open')
           <span class="badge-status badge-open">Open</span>

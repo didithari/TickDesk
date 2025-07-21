@@ -33,8 +33,8 @@
             <tbody>
                 @foreach ($roles as $role)
                 <tr>
-                    <td>{{ $role->idRole }}</td>
-                    <td>{{ $role->namaRole }}</td>
+                    <td>{{ $role->id }}</td>
+                    <td>{{ $role->roleName }}</td>
                     <td>{{ $role->created_at }}</td>
                     <td>
                 <div class="dropdown">
@@ -43,12 +43,12 @@
                     </button>
                     <div class="dropdown-menu">
                     <!-- Tombol Edit -->
-                    <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editModal{{ $role->idRole }}">
+                    <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editModal{{ $role->id }}">
                         <i class="ti ti-pencil me-1"></i> Edit
                     </button>
 
                     <!-- Tombol Hapus -->
-                    <form action="{{ route('role.delete', $role->idRole) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus role ini?')">
+                    <form action="{{ route('role.delete', $role->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus role ini?')">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="dropdown-item text-danger">
@@ -61,21 +61,21 @@
                 </tr>
 
                 <!-- Modal Edit -->
-                <div class="modal fade" id="editModal{{ $role->idRole }}" tabindex="-1">
+                <div class="modal fade" id="editModal{{ $role->id}}" tabindex="-1">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form method="POST" action="{{ route('role.update', $role->idRole) }}">
+                            <form method="POST" action="{{ route('role.update', $role->id) }}">
                                 @csrf
                                 <div class="modal-header">
                                     <h5 class="modal-title">Edit Role</h5>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $role->idRole }}" title="Edit">
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $role->id}}" title="Edit">
                                         <i class="bi bi-pencil"></i>
                                     </button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="mb-3">
                                         <label>Nama Role</label>
-                                        <input type="text" name="namaRole" value="{{ $role->namaRole }}" class="form-control" required>
+                                        <input type="text" name="roleName" value="{{ $role->roleName }}" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -104,7 +104,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label>Nama Role</label>
-                        <input type="text" name="namaRole" class="form-control" required>
+                        <input type="text" name="roleName" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">

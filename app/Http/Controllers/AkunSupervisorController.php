@@ -57,7 +57,7 @@ class AkunSupervisorController extends Controller
         $user->profile_picture = $gambarUrl;
         $user->save();
 
-        return redirect()->route('akunadmin', ['alert' => 'success']);
+        return redirect()->route('akun.supervisor', ['alert' => 'success']);
     }
 
     public function hapusData($username)
@@ -94,7 +94,7 @@ class AkunSupervisorController extends Controller
         $roles = DevRole::all();
 
         if (!$akun) {
-            return redirect()->route('akunadmin')->with('error', 'Akun tidak ditemukan.');
+            return redirect()->route('akun.supervisor')->with('error', 'Akun tidak ditemukan.');
         }
 
         return view('Admin.akun_edit', [
@@ -108,7 +108,7 @@ class AkunSupervisorController extends Controller
         $akun = User::where('username', $username)->first();
 
         if (!$akun) {
-            return redirect()->route('akunadmin')->with('error', 'Akun tidak ditemukan.');
+            return redirect()->route('akun.supervisor')->with('error', 'Akun tidak ditemukan.');
         }
 
         $request->validate([
@@ -142,6 +142,6 @@ class AkunSupervisorController extends Controller
         $akun->updated_at = now();
         $akun->save();
 
-        return redirect()->route('akunadmin')->with('success', 'Data berhasil diperbarui.');
+        return redirect()->route('akun.supervisor')->with('success', 'Data berhasil diperbarui.');
     }
 }

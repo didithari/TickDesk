@@ -4,154 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use App\Models\Akun;
-use App\Models\Role;
-use App\Models\supportticket;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
+use App\Models\SupportTicket;
 
 class SupportTicketController extends Controller
 {
-    protected $Akun;
-    protected $Role;
+    protected $SupportTicket;
 
     public function __construct()
     {
-        $this->Akun = new Akun();
-        $this->Role = new Role();
-        $this->supportticket = new supportticket();
+        $this->SupportTicket = new SupportTicket();
     }
 
-    public function index(){
-
-        $alldata = [
-            'alldata'=>$this->supportticket->alldata(),
-        ];
-        return view('SupportTicket.data', $alldata);
-    // }
-    }
-
-    public function save(Request $request)
+    // Tampilkan semua tiket developer
+    public function index()
     {
-        $request->validate([
-            'username' => 'required|max:255',
-            'nama' => 'max:150',
-            'role' => '',
-            'pass' => '',
-            'status' => '',
-            'tgl' => '',
-            'upload' => 'nullable|mimes:jpg,png,jpeg,gif|max:5120',
-        ]);
-
-        $gambarUrl = null;
-
-        if ($request->hasFile('upload')) {
-            $gambar = $request->file('upload');
-            $namaGambar = date('Ymd') . '_' . uniqid() . '.' . $gambar->getClientOriginalExtension();
-            $gambar->move(public_path('GambarProfileAdmin/'), $namaGambar);
-            $gambarUrl = asset('GambarProfileAdmin/' . $namaGambar);
-        }
-
         $data = [
-            'username' => $request->username,
-            'password' => $request->pass,
-            'name' => $request->nama,
-            'status' => 'Away',
-            'lvlAkun' => '1',
-            'idRole' => $request->role,
-            'created_at' => $request->tgl,
-            'imgProfile' => $gambarUrl,
+            'alldata' => $this->SupportTicket->allData(),
         ];
-
-
-        $this->Akun->addData($data);
-
-        return redirect()->route('akunadmin', ['alert' => 'success']);
+        return view('SupportTicket.data', $data);
     }
-
-    public function hapusData($username)
-    {
-        $akun = Akun::where('username', $username)->first();
-
-        if ($akun) {
-            try {
-                if ($akun->imgProfile) {
-                    $namaGambar = basename($akun->imgProfile);
-                    $gambarPath = public_path('GambarProfileAdmin/' . $namaGambar);
-                    if (file_exists($gambarPath)) {
-                        unlink($gambarPath);
-                    }
-                }
-
-                $akun->delete();
-
-                return response()->json(['success' => true, 'message' => 'Data berhasil dihapus!']);
-            } catch (\Exception $e) {
-                return response()->json([
-                    'error' => true,
-                    'message' => 'Data tidak dapat dihapus karena berelasi dengan data lainnya!'
-                ]);
-            }
-        }
-
-        return response()->json([
-            'error' => true,
-            'message' => 'Data tidak ditemukan!'
-        ]);
-    }
-
-    public function edit($username)
-    {
-        $akun = Akun::where('username', $username)->first();
-        $roles = Role::all();
-
-        if (!$akun) {
-            return redirect()->route('akunadmin')->with('error', 'Akun tidak ditemukan.');
-        }
-
-        return view('Admin.akun_edit', [
-            'akun' => $akun,
-            'roles' => $roles
-        ]);
-    }
-
-    public function update(Request $request, $username)
-    {
-        $akun = Akun::where('username', $username)->first();
-
-        if (!$akun) {
-            return redirect()->route('akunadmin')->with('error', 'Akun tidak ditemukan.');
-        }
-
-        $request->validate([
-            'nama' => 'required|max:150',
-            'role' => 'required',
-            'upload' => ''
-        ]);
-
-        // Proses update gambar jika ada
-        if ($request->hasFile('upload')) {
-            if ($akun->imgProfile) {
-                $oldImage = public_path('GambarProfileAdmin/' . basename($akun->imgProfile));
-                if (File::exists($oldImage)) {
-                    File::delete($oldImage);
-                }
-            }
-
-            $file = $request->file('upload');
-            $filename = date('Ymd') . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('GambarProfileAdmin/'), $filename);
-            $akun->imgProfile = asset('GambarProfileAdmin/' . $filename);
-        }
-
-        $akun->name = $request->nama;
-        $akun->idRole = $request->role;
-        $akun->save();
-
-        return redirect()->route('akunadmin')->with('success', 'Data berhasil diperbarui.');
-    }
-
-
-
+    
 }

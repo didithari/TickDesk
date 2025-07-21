@@ -3,53 +3,52 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Role;
-use Illuminate\Support\Facades\Validator;
+use App\Models\DevRole;
 
 class RoleController extends Controller
 {
-    // Tampilkan semua data role
+    // Tampilkan semua data dev role
     public function index()
     {
-        $data = Role::all();
-        return view('Role.role', ['roles' => $data]); // sesuaikan dengan view kamu
+        $data = DevRole::all();
+        return view('Role.role', ['roles' => $data]); // Sesuaikan dengan view yang Anda gunakan
     }
 
-    // Simpan data role baru
+    // Simpan data dev role baru
     public function store(Request $request)
     {
         $request->validate([
-            'namaRole' => 'required|string|max:100'
+            'roleName' => 'required|string|max:100'
         ]);
 
-        Role::create([
-            'namaRole' => $request->namaRole
+        DevRole::create([
+            'roleName' => $request->roleName
         ]);
 
-        return redirect()->back()->with('success', 'Role berhasil ditambahkan!');
+        return redirect()->back()->with('success', 'Dev Role berhasil ditambahkan!');
     }
 
-    // Update data role
+    // Update data dev role
     public function update(Request $request, $id)
     {
         $request->validate([
-            'namaRole' => 'required|string|max:100'
+            'roleName' => 'required|string|max:100'
         ]);
 
-        $role = Role::findOrFail($id);
+        $role = DevRole::findOrFail($id);
         $role->update([
-            'namaRole' => $request->namaRole
+            'roleName' => $request->roleName
         ]);
 
-        return redirect()->back()->with('success', 'Role berhasil diupdate!');
+        return redirect()->back()->with('success', 'Dev Role berhasil diupdate!');
     }
 
-    // Hapus data role
+    // Hapus data dev role
     public function destroy($id)
     {
-        $role = Role::findOrFail($id);
+        $role = DevRole::findOrFail(id: $id);
         $role->delete();
 
-        return redirect()->back()->with('success', 'Role berhasil dihapus!');
+        return redirect()->back()->with('success', 'Dev Role berhasil dihapus!');
     }
 }
