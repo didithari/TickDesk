@@ -49,7 +49,7 @@ class SupportChatController extends Controller
             'devChats.sender',
             'devChats.response AS chat_message',
             'devChats.created_at AS chat_time',
-            'devAttachments.fileName AS chat_image',
+            'devAttachments.filePath AS chat_image',
             'devAttachments.fileExtension AS attachment_extension'
         )
         ->orderBy('devChats.created_at', 'asc')
@@ -114,16 +114,19 @@ class SupportChatController extends Controller
         }
 
         // Menyimpan gambar jika ada
+        $gambarUrl = null;
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imagePath = $image->store('chat_images', options: 'public'); // Menyimpan gambar di folder public/chat_images
+            $gambar = $request->file('image');
+            $namaGambar = date('Ymd') . '_' . uniqid() . '.' . $gambar->getClientOriginalExtension();
+            $gambar->move(public_path('chat_images/'), $namaGambar);   
+            $gambarUrl = asset('chat_images/' . $namaGambar);
 
             // Menyimpan informasi gambar ke database
-            DB::table('devAttachments')->insert(values: [
-                'chatID' => $chatId,
-                'fileName' => $image->getClientOriginalName(),
-                'filePath' => $imagePath,
-                'fileExtension' => $image->getClientOriginalExtension(),
+            DB::table('devAttachments')->insert([
+                'chatID' => $chatId,  // Ganti dengan ID chat yang sesuai
+                'fileName' => $gambar->getClientOriginalName(),
+                'filePath' => $gambarUrl,  // Menggunakan $gambarUrl yang telah dihasilkan
+                'fileExtension' => $gambar->getClientOriginalExtension(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
