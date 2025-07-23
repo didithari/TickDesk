@@ -3,80 +3,134 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SupportChatController extends Controller
 {
-    public function index()
-    {
-        return redirect()->route('Chatsup.chatsup.show', 1); // default ke tiket pertama
+   public function index(Request $request)
+{
+    $userId = "2"; // Sesuaikan dengan Auth::id() jika diperlukan
+
+    $user = DB::table('users')->where('id', $userId)->first();
+
+    // Mengambil semua tiket yang terkait dengan developer
+    $tickets = DB::table('devTickets')
+        ->join('users AS support', 'devTickets.supportID', '=', 'support.id')
+        ->join('users AS developer', 'devTickets.devID', '=', 'developer.id')
+        ->where('devTickets.supportID', '=', $userId)
+        ->select(
+            'devTickets.id',
+            'devTickets.title',
+            'devTickets.status',
+            'devTickets.created_at',
+            'support.name AS support_name',
+            'support.profile_picture AS support_avatar',
+            'developer.name AS developer_name',
+            'developer.profile_picture AS developer_avatar'
+        )
+        ->orderBy('devTickets.created_at', 'desc')
+        ->get();
+
+    // Check if any tickets were returned
+    if ($tickets->isEmpty()) {
+        return redirect()->route('ticket.index')->with('error', 'No tickets found.');
     }
 
-    public function show($id)
-    {
-        $user = [
-            'name' => 'John Doe',
-            'role' => 'Support',
-            'avatar' => 'https://i.pravatar.cc/40?img=10',
-        ];
+    // Tentukan ticket ID yang pertama kali dipilih (jika tidak ada, pilih ticket pertama)
+    $ticketId = $request->get('ticket', $tickets[0]->id);
 
-        $tickets = [
-            1 => [
-                'code' => '#TK-2025-001',
-                'title' => 'Login Issue with Dashboard',
-                'user' => 'Sarah Johnson',
-                'time' => '2 hours ago',
-                'status' => 'In Progress',
-            ],
-            2 => [
-                'code' => '#TK-2025-002',
-                'title' => 'Email Notification Not Working',
-                'user' => 'Mike Chen',
-                'time' => '1 day ago',
-                'status' => 'In Progress',
-            ],
-            3 => [
-                'code' => '#TK-2025-003',
-                'title' => 'Payment Gateway Error',
-                'user' => 'Emma Wilson',
-                'time' => '2 days ago',
-                'status' => 'In Progress',
-            ]
-        ];
+    // Mengambil pesan-pesan terkait tiket yang dipilih
+    $messages = DB::table('devChats')
+        ->join('devTickets', 'devChats.ticket_id', '=', 'devTickets.id')
+        ->leftJoin('devAttachments', 'devChats.id', '=', 'devAttachments.chatID')
+        ->where('devTickets.id', '=', $ticketId)
+        ->select(
+            'devChats.sender',
+            'devChats.response AS chat_message',
+            'devChats.created_at AS chat_time',
+            'devAttachments.fileName AS chat_image',
+            'devAttachments.fileExtension AS attachment_extension'
+        )
+        ->orderBy('devChats.created_at', 'asc')
+        ->get();
 
-        $messages = [
-            1 => [
-                ['from' => 'Sarah Johnson', 'avatar' => 'https://i.pravatar.cc/40?img=5', 'message' => "Hi, I'm having trouble logging in...", 'time' => '2:30 PM', 'side' => 'left'],
-                ['from' => 'John Doe', 'avatar' => $user['avatar'], 'message' => "Hello Sarah! I'm sorry to hear that. Can you tell me the error you're seeing?", 'time' => '2:32 PM', 'side' => 'right'],
-                ['from' => 'Sarah Johnson', 'avatar' => 'https://i.pravatar.cc/40?img=5', 'message' => "It says 'Invalid credentials' but I'm sure the password is correct.", 'time' => '2:33 PM', 'side' => 'left'],
-                ['from' => 'John Doe', 'avatar' => $user['avatar'], 'message' => "Alright, have you recently changed your password?", 'time' => '2:34 PM', 'side' => 'right'],
-                ['from' => 'Sarah Johnson', 'avatar' => 'https://i.pravatar.cc/40?img=5', 'message' => "No, not in the last few weeks.", 'time' => '2:35 PM', 'side' => 'left'],
-                ['from' => 'John Doe', 'avatar' => $user['avatar'], 'message' => "Let me try resetting your session. One moment...", 'time' => '2:36 PM', 'side' => 'right'],
-                ['from' => 'John Doe', 'avatar' => $user['avatar'], 'message' => "Okay, please try to login now using the same credentials.", 'time' => '2:38 PM', 'side' => 'right'],
-                ['from' => 'Sarah Johnson', 'avatar' => 'https://i.pravatar.cc/40?img=5', 'message' => "Still not working, unfortunately.", 'time' => '2:39 PM', 'side' => 'left'],
-                ['from' => 'John Doe', 'avatar' => $user['avatar'], 'message' => "Do you have access to your recovery email? I can send a reset link.", 'time' => '2:40 PM', 'side' => 'right'],
-                ['from' => 'Sarah Johnson', 'avatar' => 'https://i.pravatar.cc/40?img=5', 'message' => "Yes, please send it.", 'time' => '2:41 PM', 'side' => 'left'],
-                ['from' => 'John Doe', 'avatar' => $user['avatar'], 'message' => "Sent. Check your email for a link to reset your password.", 'time' => '2:42 PM', 'side' => 'right'],
-                ['from' => 'Sarah Johnson', 'avatar' => 'https://i.pravatar.cc/40?img=5', 'message' => "Got it. Trying now...", 'time' => '2:43 PM', 'side' => 'left'],
-                ['from' => 'Sarah Johnson', 'avatar' => 'https://i.pravatar.cc/40?img=5', 'message' => "Okay, I can log in now. Thank you!", 'time' => '2:45 PM', 'side' => 'left'],
-                ['from' => 'John Doe', 'avatar' => $user['avatar'], 'message' => "You're welcome! Let me know if you face any other issues.", 'time' => '2:46 PM', 'side' => 'right'],
-                ['from' => 'Sarah Johnson', 'avatar' => 'https://i.pravatar.cc/40?img=5', 'message' => "Will do. Have a great day!", 'time' => '2:47 PM', 'side' => 'left'],
-            ],
-            2 => [
-                ['from' => 'Mike Chen', 'avatar' => 'https://i.pravatar.cc/40?img=6', 'message' => "Email notifications are not sending.", 'time' => '11:00 AM', 'side' => 'left'],
-                ['from' => 'John Doe', 'avatar' => $user['avatar'], 'message' => "Thanks Mike. I’ll look into the SMTP config.", 'time' => '11:02 AM', 'side' => 'right'],
-            ],
-            3 => [
-                ['from' => 'Emma Wilson', 'avatar' => 'https://i.pravatar.cc/40?img=7', 'message' => "Payment failed for multiple users.", 'time' => '9:00 AM', 'side' => 'left'],
-                ['from' => 'John Doe', 'avatar' => $user['avatar'], 'message' => "We’ll check payment gateway logs.", 'time' => '9:05 AM', 'side' => 'right'],
-            ]
-        ];
+    // Menyiapkan data untuk UI
+    $selectedTicket = $tickets->firstWhere('id', $ticketId);
 
-        return view('Chatsup.chatsup', [
-            'user' => $user,
-            'tickets' => $tickets,
-            'activeTicket' => $tickets[$id],
-            'messages' => $messages[$id],
-            'activeId' => $id
+    // Inisialisasi messages sebagai objek (bukan array)
+    $selectedTicket->messages = collect(); // Menginisialisasi sebagai Collection
+
+    // Menambahkan pesan chat ke data
+    foreach ($messages as $msg) {
+        $selectedTicket->messages->push([
+            'sender' => $msg->sender,
+            'avatar' => $msg->sender === 'support' ? $selectedTicket->support_avatar : $selectedTicket->developer_avatar,
+            'message' => $msg->chat_message,
+            'time' => $msg->chat_time,
+            'image' => $msg->chat_image,
         ]);
+    }
+
+    return view('Chatsup.chatsup', compact('selectedTicket', 'tickets', 'user'));
+}
+
+
+
+    public function store(Request $request)
+    {
+        $userId = "3"; // Sesuaikan dengan Auth::id() jika diperlukan
+        $ticketId = $request->get('ticket'); // Mengambil ticket ID dari request
+        $message = $request->input('message'); // Pesan yang dikirim
+
+        // Validasi input message
+        if (!$message) {
+            return back()->with('error', 'Message cannot be empty.');
+        }
+
+        // Menyimpan pesan ke database
+        $chatId = DB::table('devChats')->insertGetId([
+            'ticket_id' => $ticketId,
+            'sender' => 'support', // 'support' bisa diganti sesuai dengan role yang sedang mengirim
+            'response' => $message,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Menangani file upload jika ada
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            $filePath = $file->store('chat_attachments', 'public'); // Menyimpan file di folder public/chat_attachments
+
+            // Menyimpan informasi lampiran ke database
+            DB::table('devAttachments')->insert([
+                'chatID' => $chatId,
+                'fileName' => $file->getClientOriginalName(),
+                'filePath' => $filePath,
+                'fileExtension' => $file->getClientOriginalExtension(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        // Menyimpan gambar jika ada
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = $image->store('chat_images', options: 'public'); // Menyimpan gambar di folder public/chat_images
+
+            // Menyimpan informasi gambar ke database
+            DB::table('devAttachments')->insert(values: [
+                'chatID' => $chatId,
+                'fileName' => $image->getClientOriginalName(),
+                'filePath' => $imagePath,
+                'fileExtension' => $image->getClientOriginalExtension(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        // Redirect kembali ke halaman tiket dengan pesan sukses
+        return redirect()->route('Chatsup.chatsup', parameters: ['ticket' => $ticketId])
+                         ->with('success', 'Message sent successfully.');
     }
 }

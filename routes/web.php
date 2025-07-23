@@ -64,10 +64,14 @@ Route::delete('/admin/role/delete/{id}', [RoleController::class, 'destroy'])->na
 
 
 //belum done (revisi terus)
-Route::get('dev/chatdev', [ChatDevController::class, 'index'])->name('Chatdev.chatdev');
+Route::get('/dev/chatdev', [ChatDevController::class, 'index'])->name('Chatdev.chatdev');
+Route::post('/dev/chatdev/store', [ChatDevController::class, 'store'])->name('Chatdev.store');
+
+//suport chat
+Route::get('/Support/chat', [SupportChatController::class, 'index'])->name('Chatsup.chatsup');
+Route::post('/Support/chat/store', [SupportChatController::class, 'store'])->name('Chatsup.store');
 
 Route::get('dev/taskticket', [DeveloperController::class, 'index'])->name('Developer.developer');
 Route::get('/spv-tickets', [SPVTicketController::class, 'index'])->name('SPV.spv');
-Route::get('/Support/chat', [SupportChatController::class, 'index'])->name('Chatsup.chatsup');
-Route::get('/Support/chat/{id}', [SupportChatController::class, 'show'])->name('Chatsup.chatsup.show');
+
 

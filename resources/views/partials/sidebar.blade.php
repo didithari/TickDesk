@@ -28,6 +28,12 @@
     margin: 9px;
     border-radius: 12px;
   }
+
+  .profile-img {
+    width: 40px; /* Fixed width */
+    height: 40px; /* Fixed height */
+    object-fit: cover; /* Maintain image aspect ratio while filling the container */
+  }
 </style>
 
 <div class="sidebar d-flex flex-column px-3">
@@ -46,10 +52,12 @@
     </nav>
   </div>
   <div class="user-footer d-flex align-items-center gap-2">
-    <img src="https://i.pravatar.cc/40?img=3" class="rounded-circle" />
+    <!-- Profile Image with fixed size -->
+    <img src="{{ $user->profile_picture }}" class="rounded-circle profile-img" alt="Profile Picture" />
+
     <div>
-      <div class="fw-semibold">John Doe</div>
-      <div class="text-muted text-small">Web Developer</div>
+      <div class="fw-semibold">{{ $user->name }}</div>
+      <div class="text-muted text-small">{{ $user->role ?? 'Web Developer' }}</div>
     </div>
   </div>
 </div>
