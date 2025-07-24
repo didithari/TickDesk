@@ -120,7 +120,7 @@
             <div class="d-flex">
                 <img src="{{ $msg['avatar'] }}" class="rounded-circle me-2 mt-1" width="32" height="32" />
                 <div>
-                    <div class="message user">
+                    <div class="message user" style="max-width: 300px;">
                         {{ $msg['message'] }}
                     </div>
                     @if (isset($msg['image']))
@@ -136,7 +136,7 @@
         <div class="chat-divider text-end">
             <div class="d-flex justify-content-end align-items-start">
                 <div>
-                    <div class="message dev">
+                    <div class="message dev" style="max-width: 300px;">
                         {{ $msg['message'] }}
                     </div>
                     @if (isset($msg['image']))
