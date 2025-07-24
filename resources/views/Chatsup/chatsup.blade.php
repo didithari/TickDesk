@@ -120,9 +120,11 @@
             <div class="d-flex">
                 <img src="{{ $msg['avatar'] }}" class="rounded-circle me-2 mt-1" width="32" height="32" />
                 <div>
-                    <div class="message user" style="max-width: 300px;">
-                        {{ $msg['message'] }}
-                    </div>
+                    @if (isset($msg['message']))
+                      <div class="message user" style="max-width: 300px;">
+                          {{ $msg['message'] }}
+                      </div>
+                    @endif
                     @if (isset($msg['image']))
                         <div class="mt-2">
                             <img src="{{ $msg['image'] }}" class="img-thumbnail rounded shadow-sm chat-image-clickable" alt="attached image">
@@ -136,9 +138,11 @@
         <div class="chat-divider text-end">
             <div class="d-flex justify-content-end align-items-start">
                 <div>
-                    <div class="message dev" style="max-width: 300px;">
-                        {{ $msg['message'] }}
-                    </div>
+                    @if (isset($msg['message']))
+                      <div class="message dev" style="max-width: 300px;">
+                          {{ $msg['message'] }}
+                      </div>
+                    @endif
                     @if (isset($msg['image']))
                         <div class="mt-2 text-end">
                             <img src="{{ $msg['image'] }}" class="img-thumbnail rounded shadow-sm chat-image-clickable" alt="attached image">
