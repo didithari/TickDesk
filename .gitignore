@@ -7,6 +7,7 @@
 /storage/*.key
 .env
 .env.backup
+/public/chat_images/*
 .env.production
 .phpunit.result.cache
 Homestead.json

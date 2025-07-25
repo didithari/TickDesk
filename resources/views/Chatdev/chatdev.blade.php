@@ -77,6 +77,16 @@
     max-width: 250px;
     cursor: zoom-in;
   }
+
+  #selectedImageContainer {
+    display: none;
+    margin-bottom: 10px;
+  }
+
+  #selectedImage {
+    max-width: 150px;
+    height: auto;
+  }
 </style>
 @endsection
 
@@ -86,7 +96,7 @@
     <h6 class="fw-bold mb-3">Chat History</h6>
     @foreach ($tickets as $ticket)
       @php
-        $isActive = $ticket->id === $selectedTicket->id; // Mengakses dengan '->' bukan '[]'
+        $isActive = $ticket->id === $selectedTicket->id;
 
         $statusClass = match($ticket->status) {
             'Open' => 'bg-warning text-dark',
@@ -96,13 +106,12 @@
         };
     @endphp
 
-
       <a href="{{ route('Chatdev.chatdev', ['ticket' => $ticket->id]) }}" class="text-decoration-none text-dark">
         <div class="ticket-card mb-2 p-2 rounded {{ $isActive ? 'bg-light' : '' }}">
           <span class="badge {{ $statusClass }} badge-status mb-1">{{ $ticket->status }}</span>
           <div class="fw-semibold text-primary">{{ $ticket->id }}</div>
           <div class="mb-1">{{ $ticket->title }}</div>
-          <small class="text-muted">{{ $ticket->support_name  }} • {{ $ticket->created_at }}</small>
+          <small class="text-muted">{{ $ticket->support_name }} • {{ $ticket->created_at }}</small>
         </div>
       </a>
     @endforeach
@@ -115,14 +124,16 @@
 
     <div class="chat-body" id="chatBody">
       @foreach ($selectedTicket->messages as $msg)
-    @if ($msg['sender'] === 'support')
+        @if ($msg['sender'] === 'support')
         <div class="chat-divider">
             <div class="d-flex">
                 <img src="{{ $msg['avatar'] }}" class="rounded-circle me-2 mt-1" width="32" height="32" />
                 <div>
-                    <div class="message user">
-                        {{ $msg['message'] }}
-                    </div>
+                    @if (isset($msg['message']))
+                      <div class="message user" style="max-width: 300px;">
+                          {{ $msg['message'] }}
+                      </div>
+                    @endif
                     @if (isset($msg['image']))
                         <div class="mt-2">
                             <img src="{{ $msg['image'] }}" class="img-thumbnail rounded shadow-sm chat-image-clickable" alt="attached image">
@@ -132,13 +143,15 @@
                 </div>
             </div>
         </div>
-    @elseif ($msg['sender'] === 'dev')
+        @elseif ($msg['sender'] === 'dev')
         <div class="chat-divider text-end">
             <div class="d-flex justify-content-end align-items-start">
                 <div>
-                    <div class="message dev">
-                        {{ $msg['message'] }}
-                    </div>
+                    @if (isset($msg['message']))
+                      <div class="message dev" style="max-width: 300px;">
+                          {{ $msg['message'] }}
+                      </div>
+                    @endif
                     @if (isset($msg['image']))
                         <div class="mt-2 text-end">
                             <img src="{{ $msg['image'] }}" class="img-thumbnail rounded shadow-sm chat-image-clickable" alt="attached image">
@@ -149,7 +162,7 @@
                 <img src="{{ $msg['avatar'] }}" class="rounded-circle ms-2 mt-1" width="32" height="32" />
             </div>
         </div>
-    @elseif ($msg['sender'] === 'system')
+        @elseif ($msg['sender'] === 'system')
         <div class="chat-divider text-center">
             <div class="d-flex justify-content-center">
                 <div class="message system">
@@ -157,50 +170,50 @@
                 </div>
             </div>
         </div>
-    @endif
-@endforeach
+        @endif
+      @endforeach
     </div>
 
-    
-<form action="{{ route('Chatdev.store') }}" method="POST" enctype="multipart/form-data">
-  @csrf
-  <input type="hidden" name="ticket" value="{{ $selectedTicket->id }}"> <!-- Mengirim ticketId yang dipilih -->
+    <form action="{{ route('Chatdev.store') }}" method="POST" enctype="multipart/form-data">
+      @csrf
+      <input type="hidden" name="ticket" value="{{ $selectedTicket->id }}">
 
-  <div class="d-flex align-items-end gap-2 mb-2">
-    <!-- Textarea untuk mengetik pesan -->
-    <textarea class="form-control" name="message" rows="2" placeholder="Type your message..." style="resize: none;"></textarea>
-    
-    <!-- Tombol Kirim -->
-    <button type="submit" class="btn btn-primary rounded px-3 py-2"><i class="bi bi-send-fill"></i></button>
-    
-    <!-- Tombol Mark as Resolved (optional, bisa digunakan jika tiket sudah selesai) -->
-    <button type="button" class="btn d-flex align-items-center gap-2 text-white mark-resolved-btn">
-      <i class="bi bi-check-circle-fill fs-5"></i>
-      <span class="fw-semibold">Mark as Resolved</span>
-    </button>
-  </div>
+      <!-- Image Preview -->
+      <div id="selectedImageContainer" class="mb-2">
+        <img id="selectedImage" src="" alt="Selected Image" class="img-thumbnail">
+        <button type="button" id="removeImage" class="btn btn-sm btn-danger">x</button>
+      </div>
 
-  <!-- Pilihan untuk upload file atau gambar -->
-  <div class="d-flex gap-2 pt-1">
-    <!-- Input untuk file attachment -->
-    <input type="file" name="attachment" id="attachment" class="d-none">
-    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('attachment').click();">
-        <i class="bi bi-paperclip"></i> File
-    </button>
+      <div class="d-flex align-items-end gap-2 mb-2">
+        <textarea class="form-control" name="message" id="messageTextarea" rows="2" placeholder="Type your message..." style="resize: none;"></textarea>
 
-    <!-- Input untuk file image -->
-    <input type="file" name="image" id="image" class="d-none">
-    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('image').click();">
-        <i class="bi bi-image"></i> Image
-    </button>
-  </div>
-</form>
+        <button type="submit" class="btn btn-primary rounded px-3 py-2"><i class="bi bi-send-fill"></i></button>
 
+        <button type="button" class="btn d-flex align-items-center gap-2 text-white mark-resolved-btn">
+          <i class="bi bi-check-circle-fill fs-5"></i>
+          <span class="fw-semibold">Mark as Resolved</span>
+        </button>
+      </div>
 
-<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content bg-transparent border-0">
-      <img id="modalImage" src="" class="img-fluid rounded shadow" />
+      <div class="d-flex gap-2 pt-1">
+        <input type="file" name="attachment" id="attachment" class="d-none">
+        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('attachment').click();">
+          <i class="bi bi-paperclip"></i> File
+        </button>
+
+        <input type="file" name="image" id="image" class="d-none">
+        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('image').click();">
+          <i class="bi bi-image"></i> Image
+        </button>
+      </div>
+    </form>
+
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent border-0">
+          <img id="modalImage" src="" class="img-fluid rounded shadow" />
+        </div>
+      </div>
     </div>
   </div>
 </div>
