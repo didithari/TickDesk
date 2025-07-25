@@ -81,5 +81,7 @@ Route::get('/spv-tickets', [SPVTicketController::class, 'index'])->name('SPV.spv
 
 // auth -- view only
 Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('loginPost');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/forgot-password', [PasswordResetController::class, 'index'])->name('forgotPassword');
 Route::get('/new-password', [NewPasswordController::class, 'index'])->name('newPassword');

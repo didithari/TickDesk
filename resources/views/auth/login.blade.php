@@ -72,14 +72,15 @@
     <h5 class="fw-bold">TickDesk</h5>
     <p class="mt-2 mb-4 text-muted">Login to your account<br><small>Welcome back! Please enter your details.</small></p>
 
-    <form>
+    <form method="POST" action="{{ route('loginPost') }}">
+      @csrf
       <div class="mb-3 text-start">
         <label for="email" class="form-label fw-semibold">Email</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter your email">
+        <input type="email" name="email" class="form-control" required id="email" placeholder="Enter your email">
       </div>
       <div class="mb-3 text-start">
         <label for="password" class="form-label fw-semibold">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Enter your password">
+        <input type="password" name="password" class="form-control" required id="password" placeholder="Enter your password">
       </div>
       <div class="mb-3 text-end">
         <a href="/forgot-password" class="form-text">Forgot Password?</a>
