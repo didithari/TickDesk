@@ -10,6 +10,9 @@ use App\Http\Controllers\ChatDevController;
 use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\SPVTicketController;
 use App\Http\Controllers\SupportChatController;
+use App\Http\Controllers\NewPasswordController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PasswordResetController;
 
 
 
