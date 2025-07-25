@@ -63,15 +63,20 @@ Route::post('/admin/role/update/{id}', [RoleController::class, 'update'])->name(
 Route::delete('/admin/role/delete/{id}', [RoleController::class, 'destroy'])->name('role.delete');
 
 
-//belum done (revisi terus)
+//chat dev -- belum done (revisi terus)
 Route::get('/dev/chatdev', [ChatDevController::class, 'index'])->name('Chatdev.chatdev');
 Route::post('/dev/chatdev/store', [ChatDevController::class, 'store'])->name('Chatdev.store');
 
-//suport chat
+//suport chat -- belum done (revisi terus)
 Route::get('/Support/chat', [SupportChatController::class, 'index'])->name('Chatsup.chatsup');
 Route::post('/Support/chat/store', [SupportChatController::class, 'store'])->name('Chatsup.store');
 
+// view only
 Route::get('dev/taskticket', [DeveloperController::class, 'index'])->name('Developer.developer');
 Route::get('/spv-tickets', [SPVTicketController::class, 'index'])->name('SPV.spv');
 
 
+// auth -- view only
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::get('/forgot-password', [PasswordResetController::class, 'index'])->name('forgotPassword');
+Route::get('/new-password', [NewPasswordController::class, 'index'])->name('newPassword');
