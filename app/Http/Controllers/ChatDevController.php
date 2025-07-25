@@ -84,7 +84,7 @@ class ChatDevController extends Controller
         $message = $request->input('message'); // Pesan yang dikirim
 
         // Validasi input message
-        if (!$message) {
+        if (!$message && !$request->hasFile('attachment') && !$request->hasFile('image')) {
             return back()->with('error', 'Message cannot be empty.');
         }
 
