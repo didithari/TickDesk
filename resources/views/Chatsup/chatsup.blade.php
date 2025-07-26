@@ -76,6 +76,7 @@
   .chat-image-clickable {
     max-width: 250px;
     cursor: zoom-in;
+    margin-top: 8px;
   }
 
   #selectedImageContainer {
@@ -86,6 +87,32 @@
   #selectedImage {
     max-width: 150px;
     height: auto;
+  }
+
+  .file-box {
+    border: 1px solid #dee2e6;
+    background: #f8f9fa;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 250px;
+    margin-bottom: 4px;
+    word-break: break-all;         /* <-- Tambahkan ini */
+    overflow-wrap: anywhere;       /* <-- Tambahkan ini */
+    margin-top: 16px !important;
+  }
+  .file-box a {
+    word-break: break-all;         /* <-- Tambahkan ini */
+    overflow-wrap: anywhere;       /* <-- Tambahkan ini */
+    display: inline-block;         /* <-- Tambahkan ini */
+    max-width: 180px;              /* <-- Tambahkan ini, agar link tidak melebar */
+    white-space: normal;           /* <-- Tambahkan ini */
+    text-overflow: ellipsis;       /* <-- Tambahkan ini */
+    overflow: hidden;              /* <-- Tambahkan ini */
+    vertical-align: middle;
   }
 </style>
 @endsection
@@ -130,13 +157,25 @@
                 <img src="{{ $msg['avatar'] }}" class="rounded-circle me-2 mt-1" width="32" height="32" />
                 <div>
                     @if (isset($msg['message']))
-                      <div class="message user" style="max-width: 300px;">
+                      <div class="message user mb-2" style="max-width: 300px;">
                           {{ $msg['message'] }}
                       </div>
                     @endif
                     @if (isset($msg['image']))
-                        <div class="mt-2">
+                        <div class="mt-3">
                             <img src="{{ $msg['image'] }}" class="img-thumbnail rounded shadow-sm chat-image-clickable" alt="attached image">
+                        </div>
+                    @endif
+                    @if($msg['attachment'])
+                        <div class="mt-3">
+                            @if($msg['attachment']['type'] === 'image')
+                                <img src="{{ $msg['attachment']['url'] }}" alt="{{ $msg['attachment']['name'] }}" class="chat-image-clickable" style="max-width:200px; margin-top:8px;">
+                            @else
+                                <div class="file-box mt-2 p-2 rounded bg-light border d-inline-block" style="margin-top:8px;">
+                                    <i class="bi bi-file-earmark-arrow-down me-2"></i>
+                                    <a href="{{ $msg['attachment']['url'] }}" download class="fw-semibold text-primary">{{ $msg['attachment']['name'] }}</a>
+                                </div>
+                            @endif
                         </div>
                     @endif
                     <div class="text-small text-muted mt-1">{{ $msg['time'] }}</div>
@@ -156,6 +195,16 @@
                         <div class="mt-2 text-end">
                             <img src="{{ $msg['image'] }}" class="img-thumbnail rounded shadow-sm chat-image-clickable" alt="attached image">
                         </div>
+                    @endif
+                    @if($msg['attachment'])
+                        @if($msg['attachment']['type'] === 'image')
+                            <img src="{{ $msg['attachment']['url'] }}" alt="{{ $msg['attachment']['name'] }}" class="chat-image-clickable" style="max-width:200px;">
+                        @else
+                            <div class="file-box mt-2 p-2 rounded bg-light border d-inline-block">
+                                <i class="bi bi-file-earmark-arrow-down me-2"></i>
+                                <a href="{{ $msg['attachment']['url'] }}" download class="fw-semibold text-primary">{{ $msg['attachment']['name'] }}</a>
+                            </div>
+                        @endif
                     @endif
                     <div class="text-small text-muted mt-1 text-end">{{ $msg['time'] }}</div>
                 </div>
@@ -184,6 +233,15 @@
         <button type="button" id="removeImage" class="btn btn-sm btn-danger">x</button>
       </div>
 
+      <!-- File Preview -->
+      <div id="selectedFileContainer" class="mb-2" style="display:none;">
+        <div class="file-box">
+          <i class="bi bi-file-earmark-arrow-down me-2"></i>
+          <span id="selectedFileName"></span>
+          <button type="button" id="removeFile" class="btn btn-sm btn-danger ms-2">x</button>
+        </div>
+      </div>
+
       <div class="d-flex align-items-end gap-2 mb-2">
         <textarea class="form-control" name="message" id="messageTextarea" rows="2" placeholder="Type your message..." style="resize: none;"></textarea>
 
@@ -196,12 +254,12 @@
       </div>
 
       <div class="d-flex gap-2 pt-1">
-        <input type="file" name="attachment" id="attachment" class="d-none">
+        <input type="file" name="attachment[]" id="attachment" class="d-none" multiple>
         <button type="button" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('attachment').click();">
           <i class="bi bi-paperclip"></i> File
         </button>
 
-        <input type="file" name="image" id="image" class="d-none">
+        <input type="file" name="image[]" id="image" class="d-none" accept="image/*" multiple>
         <button type="button" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('image').click();">
           <i class="bi bi-image"></i> Image
         </button>
@@ -232,16 +290,35 @@
     }, 100);
   });
 
-  // Show image modal on image click
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.chat-image-clickable').forEach(function(img) {
-      img.addEventListener('click', function() {
-        var modalImg = document.getElementById('modalImage');
-        modalImg.src = this.src;
-        var imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
-        imageModal.show();
-      });
-    });
+  // Event delegation untuk gambar yang bisa di klik
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('chat-image-clickable')) {
+      var modalImg = document.getElementById('modalImage');
+      modalImg.src = e.target.src;
+      var imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+      imageModal.show();
+    }
+  });
+
+  // Preview file attachment
+  document.getElementById('attachment').addEventListener('change', function(e) {
+    const fileInput = e.target;
+    const file = fileInput.files[0];
+    if (file) {
+      document.getElementById('selectedFileName').textContent = file.name;
+      document.getElementById('selectedFileContainer').style.display = 'block';
+    } else {
+      document.getElementById('selectedFileContainer').style.display = 'none';
+      document.getElementById('selectedFileName').textContent = '';
+    }
+  });
+
+  // Cancel file attachment
+  document.getElementById('removeFile').addEventListener('click', function() {
+    const fileInput = document.getElementById('attachment');
+    fileInput.value = '';
+    document.getElementById('selectedFileContainer').style.display = 'none';
+    document.getElementById('selectedFileName').textContent = '';
   });
 </script>
 @endsection
