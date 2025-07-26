@@ -229,7 +229,19 @@
       if (chatBody) {
         chatBody.scrollTop = chatBody.scrollHeight;
       }
-    }, 100); // Delay to ensure layout is rendered
+    }, 100);
+  });
+
+  // Show image modal on image click
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.chat-image-clickable').forEach(function(img) {
+      img.addEventListener('click', function() {
+        var modalImg = document.getElementById('modalImage');
+        modalImg.src = this.src;
+        var imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+        imageModal.show();
+      });
+    });
   });
 </script>
 @endsection
