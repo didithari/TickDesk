@@ -22,7 +22,7 @@
     font-weight: 500;
     padding: 4px 8px;
     border-radius: 12px;
-    color: white;
+    color: white; /* Ensures text is white */
   }
 
   .ticket-type.web { background-color: #5B9BFF; }
@@ -40,6 +40,11 @@
 
   .btn-take {
     background-color: #28a745;
+    color: white;
+  }
+
+  .btn-open {
+    background-color: #0d6efd;
     color: white;
   }
 
@@ -68,33 +73,49 @@
 
 @section('content')
 <div class="main-content">
-  <h4 class="fw-bold">Support Tickets</h4>
+  <h4 class="fw-bold">Task Tickets</h4>
   <p class="text-muted">Manage and respond to support requests</p>
 
   <ul class="nav nav-tabs tabs mb-3" id="role-tabs">
     <li class="nav-item"><a class="nav-link active" data-role="all" href="#">All Tickets</a></li>
-    <li class="nav-item"><a class="nav-link" data-role="mobile" href="#">Mobile Dev</a></li>
-    <li class="nav-item"><a class="nav-link" data-role="web" href="#">Web Dev</a></li>
-    <li class="nav-item"><a class="nav-link" data-role="desktop" href="#">Desktop Dev</a></li>
+    <li class="nav-item"><a class="nav-link" data-role="mobile" href="#">Mobile Developer</a></li>
+    <li class="nav-item"><a class="nav-link" data-role="web" href="#">Web Developer</a></li>
+    <li class="nav-item"><a class="nav-link" data-role="desktop" href="#">Desktop Developer</a></li>
   </ul>
 
   <div id="ticket-list">
     @foreach ($tickets as $ticket)
-    <div class="ticket-card" data-role="{{ $ticket['type'] }}">
+    <div class="ticket-card" 
+      @if(strtolower($ticket->roleName) == 'web developer')
+        data-role="web"
+      @elseif(strtolower($ticket->roleName) == 'mobile developer')
+        data-role="mobile"
+      @elseif(strtolower($ticket->roleName) == 'desktop developer')
+        data-role="desktop"
+      @endif
+    >
       <div class="d-flex justify-content-between">
         <div>
           <div class="small text-muted">
-            #TK-2025-{{ $ticket['id'] }} <span class="ticket-type {{ $ticket['type'] }} ms-2">{{ ucfirst($ticket['type']) }} Dev</span>
+            #TK-2025-{{ $ticket->id }} 
+            <span class="ticket-type 
+              @if(strtolower($ticket->roleName) == 'web developer') web
+              @elseif(strtolower($ticket->roleName) == 'mobile developer') mobile
+              @elseif(strtolower($ticket->roleName) == 'desktop developer') desktop
+              @endif
+              ms-2">
+              {{ $ticket->roleName }}
+            </span>
           </div>
-          <h6 class="mt-2 mb-1">{{ $ticket['title'] }}</h6>
+          <h6 class="mt-2 mb-1">{{ $ticket->title }}</h6>
           <div class="text-muted" style="font-size: 14px;">
-            <i class="bi bi-person-fill me-1"></i> {{ $ticket['name'] }}
-            <i class="bi bi-clock ms-3 me-1"></i> {{ $ticket['time'] }}
+            <i class="bi bi-person-fill me-1"></i> {{ $ticket->support_name }}
+            <i class="bi bi-clock ms-3 me-1"></i> {{ $ticket->created_at }}
           </div>
         </div>
         <div class="text-end">
           <div class="ticket-actions mt-2">
-            <span class="status-badge">Open</span>
+            <button class="btn btn-sm btn-open">Open</button>
             <button class="btn btn-sm btn-take">Take Ticket</button>
           </div>
         </div>
@@ -111,6 +132,7 @@
     const tabs = document.querySelectorAll("#role-tabs .nav-link");
     const cards = document.querySelectorAll(".ticket-card");
 
+    // Filter tickets based on the selected role
     tabs.forEach(tab => {
       tab.addEventListener("click", function (e) {
         e.preventDefault();
@@ -131,11 +153,12 @@
       });
     });
 
+    // Optional: Add functionality to "Take Ticket" button
     const takeButtons = document.querySelectorAll(".btn-take");
     takeButtons.forEach(btn => {
       btn.addEventListener("click", function () {
         alert("Ticket has been taken!");
-        // Di sini bisa ditambahkan AJAX ke server jika diperlukan
+        // You can add AJAX here if needed
       });
     });
   });

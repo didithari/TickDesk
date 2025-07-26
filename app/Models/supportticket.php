@@ -42,6 +42,18 @@ class SupportTicket extends Model
             ->get();
     }
 
+    // Model SupportTicket
+    public function allWithDevRole()
+    {
+        return DB::table($this->table)
+            ->leftJoin('devRoles', 'devTickets.roleID', '=', 'devRoles.id')
+            ->leftJoin('users as support', 'devTickets.supportID', '=', 'support.id') // Join dengan tabel users untuk support
+            ->select('devTickets.*', 'devRoles.roleName', 'support.name as support_name') // Tambahkan support_name
+            ->get();
+    }
+
+
+
     // Tambah data
     public function addData($data)
     {
