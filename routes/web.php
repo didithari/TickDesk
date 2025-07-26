@@ -75,7 +75,7 @@ Route::get('/Support/chat', [SupportChatController::class, 'index'])->name('Chat
 Route::post('/Support/chat/store', [SupportChatController::class, 'store'])->name('Chatsup.store');
 
 // view only
-Route::get('dev/taskticket', [DeveloperController::class, 'index'])->name('Developer.developer');
+Route::get('/dev/taskticket', [DeveloperController::class, 'index'])->name('Developer.developer');
 Route::get('/spv-tickets', [SPVTicketController::class, 'index'])->name('SPV.spv');
 
 

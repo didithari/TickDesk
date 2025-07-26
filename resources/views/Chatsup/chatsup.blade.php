@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('Chatsup.layout.app')
 
 @section('title', 'Chat Ticket')
 
@@ -221,5 +221,16 @@
 
 @section('scripts')
 <script src="{{ asset('js/chatdev.js') }}"></script>
+<script>
+  // Scroll chat body to bottom after render
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      var chatBody = document.getElementById('chatBody');
+      if (chatBody) {
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+    }, 100); // Delay to ensure layout is rendered
+  });
+</script>
 @endsection
 
