@@ -62,16 +62,18 @@
     <p class="mt-2 mb-4 text-muted">
       Please enter your new password below.
     </p>
-
-    <form>
+    <form method="POST" action="{{ route('updatePassword') }}">
+      @csrf
+      <input type="hidden" name="token" value="{{ $token }}">
+      <input type="hidden" name="email" value="{{ request('email') }}">
       <div class="mb-3 text-start">
         <label for="new-password" class="form-label fw-semibold">New Password</label>
-        <input type="password" class="form-control" id="new-password" placeholder="Enter new password" required>
+        <input type="password" class="form-control" name="password" id="new-password" placeholder="Enter new password" required>
       </div>
 
       <div class="mb-3 text-start">
         <label for="retype-password" class="form-label fw-semibold">Retype Password</label>
-        <input type="password" class="form-control" id="retype-password" placeholder="Retype your password" required>
+        <input type="password" class="form-control" name="password_confirmation" id="retype-password" placeholder="Retype your password" required>
       </div>
 
       <div class="d-grid">

@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;
 
-class User extends Model
+class User extends Model implements CanResetPassword
 {
-    use HasFactory;
+    use HasFactory, CanResetPasswordTrait;
 
     protected $table = 'users'; // tabel baru
     protected $primaryKey = 'id';

@@ -73,11 +73,17 @@
       Enter your email and we’ll send you a link to reset your password.
     </p>
 
-    <form>
+    <form method="POST" action="{{route('sendEmail')}}">
+      @csrf
       <div class="mb-3 text-start">
         <label for="email" class="form-label fw-semibold">Email Address</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+        <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" required>
       </div>
+      @error('email')
+          <span style="color: red; font-size: 13px;">
+              {{ $message }}
+          </span>
+      @enderror
       <div class="d-grid">
         <button type="submit" class="btn btn-submit">Send Reset Link</button>
       </div>
