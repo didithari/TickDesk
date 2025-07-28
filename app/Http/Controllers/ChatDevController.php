@@ -26,6 +26,8 @@ class ChatDevController extends Controller
             'devTickets.created_at',
             'support.name AS support_name',
             'support.profile_picture AS support_avatar',
+            'support.email AS support_email',
+            'developer.email AS developer_email',
             'developer.name AS developer_name',
             'developer.profile_picture AS developer_avatar'
         )
@@ -63,19 +65,36 @@ class ChatDevController extends Controller
 
     // Menambahkan pesan chat ke data
     foreach ($messages as $msg) {
+        // Cek apakah ada attachment
+        $isImage = in_array(strtolower($msg->attachment_extension), ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']);
+        $attachment = null;
+        if ($msg->chat_image) {
+            if ($isImage) {
+                $attachment = [
+                    'type' => 'image',
+                    'url' => $msg->chat_image,
+                    'name' => basename($msg->chat_image),
+                ];
+            } else {
+                // Untuk file selain gambar, gunakan link download
+                $attachment = [
+                    'type' => 'file',
+                    'url' => asset('storage/' . $msg->chat_image),
+                    'name' => basename($msg->chat_image),
+                ];
+            }
+        }
+
         $selectedTicket->messages->push([
             'sender' => $msg->sender,
             'avatar' => $msg->sender === 'support' ? $selectedTicket->support_avatar : $selectedTicket->developer_avatar,
             'message' => $msg->chat_message,
             'time' => $msg->chat_time,
-            'image' => $msg->chat_image,
+            'attachment' => $attachment,
         ]);
     }
-
     return view('Chatdev.chatdev', compact('selectedTicket', 'tickets', 'user'));
 }
-
-
 
     public function store(Request $request)
     {
@@ -91,7 +110,7 @@ class ChatDevController extends Controller
         // Menyimpan pesan ke database
         $chatId = DB::table('devChats')->insertGetId([
             'ticket_id' => $ticketId,
-            'sender' => 'dev', // 'developer' bisa diganti sesuai dengan role yang sedang mengirim
+            'sender' => 'dev', // 'support' bisa diganti sesuai dengan role yang sedang mengirim
             'response' => $message,
             'created_at' => now(),
             'updated_at' => now(),
@@ -99,39 +118,50 @@ class ChatDevController extends Controller
 
         // Menangani file upload jika ada
         if ($request->hasFile('attachment')) {
-            $file = $request->file('attachment');
-            $filePath = $file->store('chat_attachments', 'public'); // Menyimpan file di folder public/chat_attachments
+            // Hitung total attachment yang sudah ada untuk tiket ini
+            $attachmentCount = DB::table('devAttachments')
+                ->join('devChats', 'devAttachments.chatID', '=', 'devChats.id')
+                ->where('devChats.ticket_id', $ticketId)
+                ->count();
 
-            // Menyimpan informasi lampiran ke database
-            DB::table('devAttachments')->insert([
-                'chatID' => $chatId,
-                'fileName' => $file->getClientOriginalName(),
-                'filePath' => $filePath,
-                'fileExtension' => $file->getClientOriginalExtension(),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            foreach ($request->file('attachment') as $idx => $file) {
+                $newFileName = ($attachmentCount + $idx + 1) . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('chat_attachments', $newFileName, 'public');
+
+                DB::table('devAttachments')->insert([
+                    'chatID' => $chatId,
+                    'fileName' => $newFileName,
+                    'filePath' => $filePath,
+                    'fileExtension' => $file->getClientOriginalExtension(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
         }
 
-        // Menyimpan gambar jika ada
-        $gambarUrl = null;
         if ($request->hasFile('image')) {
-            $gambar = $request->file('image');
-            $namaGambar = date('Ymd') . '_' . uniqid() . '.' . $gambar->getClientOriginalExtension();
-            $gambar->move(public_path('chat_images/'), $namaGambar);   
-            $gambarUrl = asset('chat_images/' . $namaGambar);
+            // Hitung total image yang sudah ada untuk tiket ini
+            $imageCount = DB::table('devAttachments')
+                ->join('devChats', 'devAttachments.chatID', '=', 'devChats.id')
+                ->where('devChats.ticket_id', $ticketId)
+                ->whereIn('devAttachments.fileExtension', ['jpg','jpeg','png','gif','bmp','webp'])
+                ->count();
 
-            // Menyimpan informasi gambar ke database
-            DB::table('devAttachments')->insert([
-                'chatID' => $chatId,  // Ganti dengan ID chat yang sesuai
-                'fileName' => $gambar->getClientOriginalName(),
-                'filePath' => $gambarUrl,  // Menggunakan $gambarUrl yang telah dihasilkan
-                'fileExtension' => $gambar->getClientOriginalExtension(),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            foreach ($request->file('image') as $idx => $gambar) {
+                $namaGambar = ($imageCount + $idx + 1) . '_' . $gambar->getClientOriginalName();
+                $gambar->move(public_path('chat_images/'), $namaGambar);   
+                $gambarUrl = asset('chat_images/' . $namaGambar);
+
+                DB::table('devAttachments')->insert([
+                    'chatID' => $chatId,
+                    'fileName' => $namaGambar,
+                    'filePath' => $gambarUrl,
+                    'fileExtension' => $gambar->getClientOriginalExtension(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
         }
-
         // Redirect kembali ke halaman tiket dengan pesan sukses
         return redirect()->route('Chatdev.chatdev', ['ticket' => $ticketId])
                          ->with('success', 'Message sent successfully.');

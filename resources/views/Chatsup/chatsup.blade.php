@@ -70,7 +70,7 @@
 
   .mark-resolved-btn:hover {
     background-color: #17b28c;
-    box-shadow: 0 4px 6px rgba(23, 178, 140, 0.4);
+    box-shadow: 0 4px 6px rgba(23,178,140,0.4);
   }
 
   .chat-image-clickable {
@@ -114,6 +114,84 @@
     overflow: hidden;              /* <-- Tambahkan ini */
     vertical-align: middle;
   }
+
+  .ticket-info-bar {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    margin: 18px 18px 0 18px;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 90px;
+    border: 1px solid #f1f3f5;
+  }
+  .ticket-info-bar .info-group {
+    display: flex;
+    gap: 48px;
+    align-items: center;
+  }
+  .ticket-info-bar .info-label {
+    color: #6c757d;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+  .ticket-info-bar .info-value {
+    color: #212529;
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+  .ticket-info-bar .info-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 0;
+  }
+  .ticket-info-bar .status-badge {
+    background: #e9f3ff;
+    color: #2563eb;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 18px;
+    padding: 6px 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .ticket-info-bar .status-badge .bi {
+    font-size: 17px;
+    vertical-align: middle;
+  }
+  .ticket-info-bar .submitter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .ticket-info-bar .submitter-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #f1f3f5;
+  }
+  .ticket-info-bar .submitter-details {
+    display: flex;
+    flex-direction: column;
+  }
+  .ticket-info-bar .submitter-name {
+    font-weight: 600;
+    font-size: 17px;
+    color: #212529;
+    margin-bottom: 0;
+  }
+  .ticket-info-bar .submitter-email {
+    font-size: 15px;
+    color: #6c757d;
+    margin-bottom: 0;
+  }
 </style>
 @endsection
 
@@ -145,9 +223,34 @@
   </div>
 
   <div class="chat-panel d-flex flex-column">
-    <div class="ticket-header p-3 border-bottom">
-      <strong>Ticket {{ $selectedTicket->id }}: {{ $selectedTicket->title }}</strong>
+    <!-- Ticket Info Top Bar -->
+    <div class="ticket-info-bar">
+      <div class="info-group">
+        <div>
+          <div class="info-label">Ticket ID</div>
+          <div class="info-value">#{{ $selectedTicket->id }}</div>
+        </div>
+        <div>
+          <div class="info-label">Title</div>
+          <div class="info-title">{{ $selectedTicket->title }}</div>
+        </div>
+        <div>
+          <div class="info-label">Status</div>
+          <span class="status-badge">
+            <i class="bi bi-clock"></i>
+            {{ $selectedTicket->status }}
+          </span>
+        </div>
+      </div>
+      <div class="submitter">
+        <img src="{{ $selectedTicket->developer_avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($selectedTicket->developer_name) }}" class="submitter-img" />
+        <div class="submitter-details">
+          <div class="submitter-name">{{ $selectedTicket->developer_name }}</div>
+          <div class="submitter-email">{{ $selectedTicket->developer_email ?? '' }}</div>
+        </div>
+      </div>
     </div>
+    <!-- End Ticket Info Top Bar -->
 
     <div class="chat-body" id="chatBody">
       @foreach ($selectedTicket->messages as $msg)

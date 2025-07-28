@@ -26,6 +26,8 @@ class SupportChatController extends Controller
             'devTickets.created_at',
             'support.name AS support_name',
             'support.profile_picture AS support_avatar',
+            'support.email AS support_email',
+            'developer.email AS developer_email',
             'developer.name AS developer_name',
             'developer.profile_picture AS developer_avatar'
         )
