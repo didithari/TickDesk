@@ -70,12 +70,13 @@
 
   .mark-resolved-btn:hover {
     background-color: #17b28c;
-    box-shadow: 0 4px 6px rgba(23, 178, 140, 0.4);
+    box-shadow: 0 4px 6px rgba(23,178,140,0.4);
   }
 
   .chat-image-clickable {
     max-width: 250px;
     cursor: zoom-in;
+    margin-top: 8px;
   }
 
   #selectedImageContainer {
@@ -86,6 +87,110 @@
   #selectedImage {
     max-width: 150px;
     height: auto;
+  }
+
+  .file-box {
+    border: 1px solid #dee2e6;
+    background: #f8f9fa;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 250px;
+    margin-bottom: 4px;
+    word-break: break-all;         /* <-- Tambahkan ini */
+    overflow-wrap: anywhere;       /* <-- Tambahkan ini */
+    margin-top: 16px !important;
+  }
+  .file-box a {
+    word-break: break-all;         /* <-- Tambahkan ini */
+    overflow-wrap: anywhere;       /* <-- Tambahkan ini */
+    display: inline-block;         /* <-- Tambahkan ini */
+    max-width: 180px;              /* <-- Tambahkan ini, agar link tidak melebar */
+    white-space: normal;           /* <-- Tambahkan ini */
+    text-overflow: ellipsis;       /* <-- Tambahkan ini */
+    overflow: hidden;              /* <-- Tambahkan ini */
+    vertical-align: middle;
+  }
+
+  .ticket-info-bar {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    margin: 18px 18px 0 18px;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 90px;
+    border: 1px solid #f1f3f5;
+  }
+  .ticket-info-bar .info-group {
+    display: flex;
+    gap: 48px;
+    align-items: center;
+  }
+  .ticket-info-bar .info-label {
+    color: #6c757d;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+  .ticket-info-bar .info-value {
+    color: #212529;
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+  .ticket-info-bar .info-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 0;
+  }
+  .ticket-info-bar .status-badge {
+    background: #e9f3ff;
+    color: #2563eb;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 18px;
+    padding: 6px 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .ticket-info-bar .status-badge .bi {
+    font-size: 17px;
+    vertical-align: middle;
+  }
+  .ticket-info-bar .submitter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .ticket-info-bar .submitter-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #f1f3f5;
+  }
+  .ticket-info-bar .submitter-details {
+    display: flex;
+    flex-direction: column;
+  }
+  .ticket-info-bar .submitter-name {
+    font-weight: 600;
+    font-size: 17px;
+    color: #212529;
+    margin-bottom: 0;
+  }
+  .ticket-info-bar .submitter-email {
+    font-size: 15px;
+    color: #6c757d;
+    margin-bottom: 0;
   }
 </style>
 @endsection
@@ -111,16 +216,41 @@
           <span class="badge {{ $statusClass }} badge-status mb-1">{{ $ticket->status }}</span>
           <div class="fw-semibold text-primary">{{ $ticket->id }}</div>
           <div class="mb-1">{{ $ticket->title }}</div>
-          <small class="text-muted">{{ $ticket->support_name }} • {{ $ticket->created_at }}</small>
+          <small class="text-muted">{{ $ticket->developer_name }} • {{ $ticket->created_at }}</small>
         </div>
       </a>
     @endforeach
   </div>
 
   <div class="chat-panel d-flex flex-column">
-    <div class="ticket-header p-3 border-bottom">
-      <strong>Ticket {{ $selectedTicket->id }}: {{ $selectedTicket->title }}</strong>
+    <!-- Ticket Info Top Bar -->
+    <div class="ticket-info-bar">
+      <div class="info-group">
+        <div>
+          <div class="info-label">Ticket ID</div>
+          <div class="info-value">#{{ $selectedTicket->id }}</div>
+        </div>
+        <div>
+          <div class="info-label">Title</div>
+          <div class="info-title">{{ $selectedTicket->title }}</div>
+        </div>
+        <div>
+          <div class="info-label">Status</div>
+          <span class="status-badge">
+            <i class="bi bi-clock"></i>
+            {{ $selectedTicket->status }}
+          </span>
+        </div>
+      </div>
+      <div class="submitter">
+        <img src="{{ $selectedTicket->support_avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($selectedTicket->developer_name) }}" class="submitter-img" />
+        <div class="submitter-details">
+          <div class="submitter-name">{{ $selectedTicket->support_name }}</div>
+          <div class="submitter-email">{{ $selectedTicket->support_email ?? '' }}</div>
+        </div>
+      </div>
     </div>
+    <!-- End Ticket Info Top Bar -->
 
     <div class="chat-body" id="chatBody">
       @foreach ($selectedTicket->messages as $msg)
@@ -130,13 +260,25 @@
                 <img src="{{ $msg['avatar'] }}" class="rounded-circle me-2 mt-1" width="32" height="32" />
                 <div>
                     @if (isset($msg['message']))
-                      <div class="message user" style="max-width: 300px;">
+                      <div class="message user mb-2" style="max-width: 300px;">
                           {{ $msg['message'] }}
                       </div>
                     @endif
                     @if (isset($msg['image']))
-                        <div class="mt-2">
+                        <div class="mt-3">
                             <img src="{{ $msg['image'] }}" class="img-thumbnail rounded shadow-sm chat-image-clickable" alt="attached image">
+                        </div>
+                    @endif
+                    @if($msg['attachment'])
+                        <div class="mt-3">
+                            @if($msg['attachment']['type'] === 'image')
+                                <img src="{{ $msg['attachment']['url'] }}" alt="{{ $msg['attachment']['name'] }}" class="chat-image-clickable" style="max-width:200px; margin-top:8px;">
+                            @else
+                                <div class="file-box mt-2 p-2 rounded bg-light border d-inline-block" style="margin-top:8px;">
+                                    <i class="bi bi-file-earmark-arrow-down me-2"></i>
+                                    <a href="{{ $msg['attachment']['url'] }}" download class="fw-semibold text-primary">{{ $msg['attachment']['name'] }}</a>
+                                </div>
+                            @endif
                         </div>
                     @endif
                     <div class="text-small text-muted mt-1">{{ $msg['time'] }}</div>
@@ -156,6 +298,16 @@
                         <div class="mt-2 text-end">
                             <img src="{{ $msg['image'] }}" class="img-thumbnail rounded shadow-sm chat-image-clickable" alt="attached image">
                         </div>
+                    @endif
+                    @if($msg['attachment'])
+                        @if($msg['attachment']['type'] === 'image')
+                            <img src="{{ $msg['attachment']['url'] }}" alt="{{ $msg['attachment']['name'] }}" class="chat-image-clickable" style="max-width:200px;">
+                        @else
+                            <div class="file-box mt-2 p-2 rounded bg-light border d-inline-block">
+                                <i class="bi bi-file-earmark-arrow-down me-2"></i>
+                                <a href="{{ $msg['attachment']['url'] }}" download class="fw-semibold text-primary">{{ $msg['attachment']['name'] }}</a>
+                            </div>
+                        @endif
                     @endif
                     <div class="text-small text-muted mt-1 text-end">{{ $msg['time'] }}</div>
                 </div>
@@ -184,6 +336,15 @@
         <button type="button" id="removeImage" class="btn btn-sm btn-danger">x</button>
       </div>
 
+      <!-- File Preview -->
+      <div id="selectedFileContainer" class="mb-2" style="display:none;">
+        <div class="file-box">
+          <i class="bi bi-file-earmark-arrow-down me-2"></i>
+          <span id="selectedFileName"></span>
+          <button type="button" id="removeFile" class="btn btn-sm btn-danger ms-2">x</button>
+        </div>
+      </div>
+
       <div class="d-flex align-items-end gap-2 mb-2">
         <textarea class="form-control" name="message" id="messageTextarea" rows="2" placeholder="Type your message..." style="resize: none;"></textarea>
 
@@ -196,12 +357,12 @@
       </div>
 
       <div class="d-flex gap-2 pt-1">
-        <input type="file" name="attachment" id="attachment" class="d-none">
+        <input type="file" name="attachment[]" id="attachment" class="d-none" multiple>
         <button type="button" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('attachment').click();">
           <i class="bi bi-paperclip"></i> File
         </button>
 
-        <input type="file" name="image" id="image" class="d-none">
+        <input type="file" name="image[]" id="image" class="d-none" accept="image/*" multiple>
         <button type="button" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('image').click();">
           <i class="bi bi-image"></i> Image
         </button>
@@ -221,5 +382,47 @@
 
 @section('scripts')
 <script src="{{ asset('js/chatdev.js') }}"></script>
+<script>
+  // Scroll chat body to bottom after render
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      var chatBody = document.getElementById('chatBody');
+      if (chatBody) {
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+    }, 100);
+  });
+
+  // Event delegation untuk gambar yang bisa di klik
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('chat-image-clickable')) {
+      var modalImg = document.getElementById('modalImage');
+      modalImg.src = e.target.src;
+      var imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+      imageModal.show();
+    }
+  });
+
+  // Preview file attachment
+  document.getElementById('attachment').addEventListener('change', function(e) {
+    const fileInput = e.target;
+    const file = fileInput.files[0];
+    if (file) {
+      document.getElementById('selectedFileName').textContent = file.name;
+      document.getElementById('selectedFileContainer').style.display = 'block';
+    } else {
+      document.getElementById('selectedFileContainer').style.display = 'none';
+      document.getElementById('selectedFileName').textContent = '';
+    }
+  });
+
+  // Cancel file attachment
+  document.getElementById('removeFile').addEventListener('click', function() {
+    const fileInput = document.getElementById('attachment');
+    fileInput.value = '';
+    document.getElementById('selectedFileContainer').style.display = 'none';
+    document.getElementById('selectedFileName').textContent = '';
+  });
+</script>
 @endsection
 
