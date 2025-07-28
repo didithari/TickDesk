@@ -13,7 +13,11 @@ class AkunAdminController extends Controller
 {
     public function index()
     {
-        $admins = User::where('privLevel', 'developer')->get();
+        $admins = \DB::table('users')
+            ->leftJoin('devRoles', 'users.devRoleID', '=', 'devRoles.id')
+            ->where('users.privLevel', 'developer')
+            ->select('users.*', 'devRoles.roleName')
+            ->get();
 
         return view('Admin.akun', [
             'alldata' => $admins,
@@ -25,10 +29,10 @@ class AkunAdminController extends Controller
     {
         $request->validate([
             'username' => 'required|max:255',
-            'nama' => 'max:150',
+            'nama' => 'required|max:150',
             'email' => 'nullable|email',
             'nohp' => 'nullable|max:20',
-            'role' => 'nullable',
+            'role' => 'required|exists:devRoles,id', // pastikan role wajib dan valid
             'pass' => 'required',
             'tgl' => 'nullable|date',
             'status' => 'nullable|in:active,Away',
@@ -50,7 +54,7 @@ class AkunAdminController extends Controller
         $user->email = $request->email;
         $user->phone_number = $request->nohp;
         $user->privLevel = 'developer';
-        $user->devRoleID = $request->role;
+        $user->devRoleID = $request->role; // pastikan ini ID dari devRoles
         $user->status = $request->status ?? 'Away';
         $user->created_at = $request->tgl ?? now();
         $user->updated_at = now();
@@ -116,7 +120,6 @@ class AkunAdminController extends Controller
             'email' => 'required|email',
             'nohp' => 'required|max:20',
             'role' => 'required',
-            'status' => 'required|in:aktif,nonaktif',
             'upload' => 'nullable|mimes:jpg,jpeg,png,gif|max:5120'
         ]);
 
@@ -138,7 +141,6 @@ class AkunAdminController extends Controller
         $akun->email = $request->email;
         $akun->phone_number = $request->nohp;
         $akun->devRoleID = $request->role;
-        $akun->status = $request->status;
         $akun->updated_at = now();
         $akun->save();
 

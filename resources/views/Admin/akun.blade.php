@@ -216,9 +216,7 @@
                                   <label for="emailLarge" class="form-label">Role</label>
                                   <select name="role" class="select2 form-select" required>
                                     @foreach ($roles as $r)
-                                      @if ($r->id != 0)
                                         <option value="{{ $r->id }}">{{ $r->roleName }}</option>
-                                      @endif
                                     @endforeach
                                   </select>
                                 </div>
@@ -274,7 +272,7 @@
                         <div class="modal-body">
                           <div class="d-flex align-items-start align-items-sm-center mb-3 gap-4">
                             <img
-                              src="{{$p->imgProfile}}"
+                              src="{{ $p->profile_picture }}"
                               alt="user-avatar"
                               class="d-block w-px-100 h-px-100 rounded"
                               id="uploadedAvatar" />
@@ -317,7 +315,7 @@
                           <div class="row g-2 mb-3">
                             <div class="col mb-0">
                               <label for="emailLarge" class="form-label">Role</label>
-                              <input type="text" value="{{$p->roleName}}" readonly class="form-control" placeholder="" />
+                              <input type="text" value="{{ $p->roleName ?? '-' }}" readonly class="form-control" placeholder="" />
                             </div>
                           </div>
 

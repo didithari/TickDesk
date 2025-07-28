@@ -1,4 +1,4 @@
-  @extends('layout.body')
+@extends('layout.body')
   @section('konten')
 
   <link rel="stylesheet" href="{{asset('assetsadmin')}}/vendor/libs/animate-css/animate.css" />
@@ -110,7 +110,7 @@
               <i class="ti ti-dots-vertical"></i>
             </button>
             <div class="dropdown-menu">
-            <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#largeModal{{$p->username}}"
+            <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#largeModal{{$p->id}}">
                 ><i class="ti ti-list-details me-1"></i></i> Detail Data</button>
               <a class="dropdown-item ssedtt" href="/admin/support/edit-data/{{$p->username}}"
                 ><i class="ti ti-pencil me-1"></i> Edit Data</a>
@@ -279,7 +279,7 @@
 
                     <!-- Detail Modal -->
                     @foreach ($alldata as $p)
-                    <div class="modal fade" id="largeModal{{$p->username}}" tabindex="-1" aria-hidden="true">
+                    <div class="modal fade" id="largeModal{{$p->id}}" tabindex="-1" aria-hidden="true">
                       <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -291,7 +291,7 @@
                           <div class="modal-body">
                             <div class="d-flex align-items-start align-items-sm-center mb-3 gap-4">
                               <img
-                                src="{{$p->imgProfile}}"
+                                src="{{ $p->profile_picture ?? asset('assetsadmin/img/avatars/default.png') }}"
                                 alt="user-avatar"
                                 class="d-block w-px-100 h-px-100 rounded"
                                 id="uploadedAvatar" />
@@ -331,13 +331,13 @@
                                 <label for="emailLarge" class="form-label">Status</label>
                                 <input type="text" value="{{$p->status}}" readonly class="form-control" placeholder="" />
                               </div>
+                            </div>
                             <div class="row g-2 mb-3">
                               <div class="col mb-0">
                                 <label for="emailLarge" class="form-label">Tanggal Create</label>
-                                <input type="datetime" class="form-control" value="{{$p->created_at}}" readonly placeholder="" />
+                                <input type="text" class="form-control" value="{{$p->created_at}}" readonly placeholder="" />
                               </div>
                             </div>
-
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>

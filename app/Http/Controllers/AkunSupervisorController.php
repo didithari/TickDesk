@@ -97,7 +97,7 @@ class AkunSupervisorController extends Controller
             return redirect()->route('akun.supervisor')->with('error', 'Akun tidak ditemukan.');
         }
 
-        return view('Admin.akun_edit', [
+        return view('spvacc.spv_edit', [
             'akun' => $akun,
             'roles' => $roles
         ]);

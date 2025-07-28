@@ -31,13 +31,18 @@
                 <!-- No HP -->
                 <div class="mb-3">
                     <label for="nohp" class="form-label">No HP</label>
-                    <input type="text" name="nohp" class="form-control" value="{{ $akun->nohp ?? '' }}" required>
+                    <input type="text" name="nohp" class="form-control" value="{{ $akun->phone_number ?? '' }}" required>
                 </div>
+
+                
+
+                <!-- Role hidden (null) -->
+                <input type="hidden" name="role" value="">
 
                 <!-- Foto Profil -->
                 <div class="mb-3">
                     <label for="upload" class="form-label">Foto Profil</label><br>
-                    <img id="previewImg" src="{{ $akun->imgProfile ?? asset('assetsadmin/img/avatars/default.png') }}" class="img-thumbnail mb-2" width="100">
+                    <img id="previewImg" src="{{ $akun->profile_picture ?? asset('assetsadmin/img/avatars/default.png') }}" class="img-thumbnail mb-2" width="100">
                     <input type="file" name="upload" class="form-control" onchange="previewImage(this)">
                 </div>
 
