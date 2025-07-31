@@ -53,4 +53,24 @@ class User extends Authenticatable implements CanResetPassword
     {
         return DB::table('users')->insert($data);
     }
+
+    public function isDeveloper(): bool {
+        return $this->privLevel == "developer";
+    }
+
+    public function isSPV(): bool {
+        return $this->privLevel == "spv";
+    }
+
+    public function isSupport(): bool {
+        return $this->privLevel == "support";
+    }
+
+    public function isAdmin(): bool {
+        return $this->privLevel == "admin";
+    }
+
+    public function isSuperAdmin(): bool {
+        return $this->privLevel == "super admin";
+    }
 }

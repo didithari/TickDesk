@@ -19,10 +19,19 @@ class RedirectIfAuthenticated
     {
         $guards = empty($guards) ? [null] : $guards;
 
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
-            }
+        switch (Auth::user()->privLevel) {
+            //case 'admin': //NOT FINISHED
+            //    return redirect('/admin/dashboard');
+            //case 'super admin': NOT FINISHED
+            //    return redirect('/superadmin/panel');
+            case 'spv':
+                return redirect()->route('SPV.spv');
+            case 'developer':
+                return redirect()->route('Developer.developer');
+            case 'support':
+                return redirect()->route('Chatsup.chatsup');
+            default:
+                return redirect('/')->withErrors(['Unauthorized role']);
         }
 
         return $next($request);
