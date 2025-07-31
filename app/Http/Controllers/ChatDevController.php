@@ -101,6 +101,9 @@ class ChatDevController extends Controller
         $userId = "3"; // Sesuaikan dengan Auth::id() jika diperlukan
         $ticketId = $request->get('ticket'); // Mengambil ticket ID dari request
         $message = $request->input('message'); // Pesan yang dikirim
+        $chatCreated = DB::table('devTickets')->where('id', $ticketId)->value('created_at');
+        $datePrefix = 'TK-' . \Carbon\Carbon::parse($chatCreated)->format('Ymd');
+
 
         // Validasi input message
         if (!$message && !$request->hasFile('attachment') && !$request->hasFile('image')) {
@@ -125,7 +128,7 @@ class ChatDevController extends Controller
                 ->count();
 
             foreach ($request->file('attachment') as $idx => $file) {
-                $newFileName = ($attachmentCount + $idx + 1) . '_' . $file->getClientOriginalName();
+                $newFileName = $datePrefix . "-" . $ticketId . '_' . ($attachmentCount + $idx + 1) . '_' . $file->getClientOriginalName();
                 $filePath = $file->storeAs('chat_attachments', $newFileName, 'public');
 
                 DB::table('devAttachments')->insert([
@@ -148,7 +151,7 @@ class ChatDevController extends Controller
                 ->count();
 
             foreach ($request->file('image') as $idx => $gambar) {
-                $namaGambar = ($imageCount + $idx + 1) . '_' . $gambar->getClientOriginalName();
+                $namaGambar = $datePrefix . "-" . $ticketId . '_' . ($imageCount + $idx + 1) . '_' . $gambar->getClientOriginalName();
                 $gambar->move(public_path('chat_images/'), $namaGambar);   
                 $gambarUrl = asset('chat_images/' . $namaGambar);
 

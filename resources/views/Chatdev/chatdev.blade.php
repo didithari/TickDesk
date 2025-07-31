@@ -214,7 +214,7 @@
       <a href="{{ route('Chatdev.chatdev', ['ticket' => $ticket->id]) }}" class="text-decoration-none text-dark">
         <div class="ticket-card mb-2 p-2 rounded {{ $isActive ? 'bg-light' : '' }}">
           <span class="badge {{ $statusClass }} badge-status mb-1">{{ $ticket->status }}</span>
-          <div class="fw-semibold text-primary">{{ $ticket->id }}</div>
+          <div class="fw-semibold text-primary">TK-{{ \Carbon\Carbon::parse($ticket->created_at)->format('Ymd') }}-{{ $ticket->id }}</div>
           <div class="mb-1">{{ $ticket->title }}</div>
           <small class="text-muted">{{ $ticket->developer_name }} • {{ $ticket->created_at }}</small>
         </div>
@@ -228,7 +228,7 @@
       <div class="info-group">
         <div>
           <div class="info-label">Ticket ID</div>
-          <div class="info-value">#{{ $selectedTicket->id }}</div>
+          <div class="info-value">#{{ "TK-" . \Carbon\Carbon::parse($ticket->created_at)->format('Ymd') . "-" . $selectedTicket->id }}</div>
         </div>
         <div>
           <div class="info-label">Title</div>
