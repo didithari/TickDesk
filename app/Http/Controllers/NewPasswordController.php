@@ -36,7 +36,7 @@ class NewPasswordController extends Controller
             return back()->withErrors(['email' => 'Email tidak ditemukan.']);
         }
 
-        $akun->password = $request->password; //Hash::make($request->password);
+        $akun->password = Hash::make($request->password);
         $akun->save();
 
         DB::table('password_reset_tokens')->where('email', $request->email)->delete();

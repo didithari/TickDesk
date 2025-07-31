@@ -14,12 +14,14 @@ class LoginController extends Controller
     }
 
     public function login(Request $request){
-        $user = DB::table('users')
-        ->where('email' ,'=', $request->email)
-        ->first();
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-        if ($user && $request->password === $user->password) {
-            switch ($user->privLevel) {
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            switch (Auth::user()->privLevel) {
                 //case 'admin': //NOT FINISHED
                 //    return redirect('/admin/dashboard');
                 //case 'super admin': NOT FINISHED
