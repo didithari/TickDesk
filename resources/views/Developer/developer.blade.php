@@ -68,6 +68,16 @@
     overflow-y: auto;
     padding-right: 10px;
   }
+
+  .linebox {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
 </style>
 @endsection
 
@@ -96,7 +106,7 @@
     >
       <div class="d-flex justify-content-between">
         <div>
-          <div class="small text-muted">
+          <div class="small text-muted linebox">
             #TK-2025-{{ $ticket->id }} 
             <span class="ticket-type 
               @if(strtolower($ticket->roleName) == 'web developer') web
@@ -108,7 +118,7 @@
             </span>
           </div>
           <h6 class="mt-2 mb-1">{{ $ticket->title }}</h6>
-          <div class="text-muted" style="font-size: 14px;">
+          <div class="text-muted linebox" style="font-size: 14px;">
             <i class="bi bi-person-fill me-1"></i> {{ $ticket->support_name }}
             <i class="bi bi-clock ms-3 me-1"></i> {{ $ticket->created_at }}
           </div>

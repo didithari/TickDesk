@@ -27,6 +27,7 @@
     background-color: #fff;
     margin: 9px;
     border-radius: 12px;
+    min-width: 200px;
   }
 
   .profile-img {
