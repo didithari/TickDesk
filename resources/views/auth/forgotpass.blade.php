@@ -67,7 +67,7 @@
 <body class="d-flex justify-content-center align-items-center vh-100 px-3">
 
   <div class="forgot-card text-center">
-    <img src="https://cdn-icons-png.flaticon.com/512/4201/4201011.png" alt="TickDesk Logo" class="forgot-logo" />
+    <img src="{{asset('assetsadmin')}}/img/email-logo.png" alt="TickDesk Logo" class="forgot-logo" />
     <h5 class="fw-bold">Forgot Password?</h5>
     <p class="mt-2 mb-4 text-muted">
       Enter your email and we’ll send you a link to reset your password.
