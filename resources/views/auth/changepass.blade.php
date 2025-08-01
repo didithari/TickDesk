@@ -69,6 +69,9 @@
       <div class="mb-3 text-start">
         <label for="new-password" class="form-label fw-semibold">New Password</label>
         <input type="password" class="form-control" name="password" id="new-password" placeholder="Enter new password" required>
+        @error('password')
+          <span style="color: red; font-size: 13px;">{{ $message }}</span>
+        @enderror
       </div>
 
       <div class="mb-3 text-start">

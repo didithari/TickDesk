@@ -21,6 +21,9 @@ class NewPasswordController extends Controller
             'token' => 'required',
             'email' => 'required|email',
             'password' => 'required|confirmed'
+        ], [
+            'password.required' => 'Mohon isi password baru Anda.',
+            'password.confirmed' => 'Kedua password tersebut tidak sama.'
         ]);
 
         $resetter = DB::table('password_reset_tokens')

@@ -71,12 +71,19 @@
     <img src="https://cdn-icons-png.flaticon.com/512/4201/4201011.png" alt="TickDesk Logo" class="login-logo" />
     <h5 class="fw-bold">TickDesk</h5>
     <p class="mt-2 mb-4 text-muted">Login to your account<br><small>Welcome back! Please enter your details.</small></p>
-
+    @if (session('status'))
+      <div style="color: green; font-size: 14px; margin-bottom: 16px;">
+        {{session('status')}}
+      </div>
+    @endif
     <form method="POST" action="{{ route('loginPost') }}">
       @csrf
       <div class="mb-3 text-start">
         <label for="email" class="form-label fw-semibold">Email</label>
         <input type="email" name="email" class="form-control" required id="email" placeholder="Enter your email">
+        @error('email')
+          <span style="color: red; font-size: 13px;">{{ $message }}</span>
+        @enderror
       </div>
       <div class="mb-3 text-start">
         <label for="password" class="form-label fw-semibold">Password</label>
