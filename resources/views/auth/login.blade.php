@@ -64,7 +64,7 @@
     }
   </style>
 </head>
-<body class="d-flex justify-content-center align-items-center vh-100">
+<body class="d-flex justify-content-center align-items-center vh-100 px-3">
 
   <div class="login-card text-center">
     <!-- Ganti URL logo di bawah jika perlu -->

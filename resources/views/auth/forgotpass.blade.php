@@ -64,7 +64,7 @@
     }
   </style>
 </head>
-<body class="d-flex justify-content-center align-items-center vh-100">
+<body class="d-flex justify-content-center align-items-center vh-100 px-3">
 
   <div class="forgot-card text-center">
     <img src="https://cdn-icons-png.flaticon.com/512/4201/4201011.png" alt="TickDesk Logo" class="forgot-logo" />
