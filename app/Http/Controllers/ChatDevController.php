@@ -10,9 +10,8 @@ class ChatDevController extends Controller
 {
    public function index(Request $request)
 {
-    $userId = "3"; // Sesuaikan dengan Auth::id() jika diperlukan
-
-    $user = DB::table('users')->where('id', $userId)->first();
+    $userId = Auth::id(); // Ambil user id dari session
+    $user = Auth::user(); // Ambil user object dari session
 
     // Mengambil semua tiket yang terkait dengan developer
     $tickets = DB::table('devTickets')

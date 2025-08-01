@@ -20,5 +20,17 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   @yield('scripts')
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('profileBtn');
+    var modalEl = document.getElementById('profileModal');
+    if (btn && modalEl) {
+      btn.addEventListener('click', function() {
+        var modal = new bootstrap.Modal(modalEl);
+        modal.show();
+      });
+    }
+  });
+</script>
 </body>
 </html>

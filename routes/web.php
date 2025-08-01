@@ -80,7 +80,7 @@ Route::post('/Support/chat/store', [SupportChatController::class, 'store'])->mid
 
 Route::get('/spv-tickets', [SPVTicketController::class, 'index'])->middleware('spv')->name('SPV.spv');
 
-Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // auth -- view only
 Route::middleware(['guest'])->group(function () {

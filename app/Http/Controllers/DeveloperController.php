@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SupportTicket; // Pastikan model ini sudah di-import
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DeveloperController extends Controller
@@ -11,7 +12,7 @@ class DeveloperController extends Controller
     public function index()
     {
 
-        $userId = "2"; // Sesuaikan dengan Auth::id() jika diperlukan
+        $userId = Auth::id(); // Sesuaikan dengan Auth::id() jika diperlukan
 
         $user = DB::table('users')->where('id', $userId)->first();
 

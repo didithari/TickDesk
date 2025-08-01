@@ -97,7 +97,7 @@
     </div>
     <div class="d-flex align-items-center">
       <i class="bi bi-bell navbar-icon"></i>
-      <img src="https://i.pravatar.cc/300?img=12" alt="Profile" class="profile-img" />
+      <img src="https://i.pravatar.cc/300?img=12" alt="Profile" class="profile-img" id="profileImg" style="cursor:pointer;" />
     </div>
   </div>
 </nav>
@@ -215,6 +215,31 @@
   </div>
 </div>
 
+<!-- Modal Logout -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="logoutModalLabel">Logout Confirmation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to logout?
+      </div>
+      <div class="modal-footer">
+        <form id="logoutForm" method="POST" action="{{ route('logout') }}">
+          @csrf
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS Bundle (Popper included) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const container = document.getElementById("ticketContainer");
@@ -277,6 +302,12 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       target.before(draggedItem);
     }
+  });
+
+  // Profile click for logout
+  document.getElementById("profileImg").addEventListener("click", function () {
+    var logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+    logoutModal.show();
   });
 });
 </script>
