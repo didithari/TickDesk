@@ -83,11 +83,9 @@
       @csrf
       <div class="mb-3 text-start">
         <label for="email" class="form-label fw-semibold">Email Address</label>
-        <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" required>
+        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="Enter your email" required>
         @error('email')
-          <span style="color: red; font-size: 13px;">
-            {{ $message }}
-          </span>
+          <span style="color: red; font-size: 13px;">{{ $message }}</span>
         @enderror
       </div>
 
