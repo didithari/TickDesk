@@ -47,8 +47,14 @@ class SupportTicket extends Model
     {
         return DB::table($this->table)
             ->leftJoin('devRoles', 'devTickets.roleID', '=', 'devRoles.id')
-            ->leftJoin('users as support', 'devTickets.supportID', '=', 'support.id') // Join dengan tabel users untuk support
-            ->select('devTickets.*', 'devRoles.roleName', 'support.name as support_name') // Tambahkan support_name
+            ->leftJoin('users as support', 'devTickets.supportID', '=', 'support.id')
+            ->select(
+                'devTickets.*',
+                'support.profile_picture as user_avatar',
+                'devRoles.roleName',
+                'support.name as support_name',
+                DB::raw('(SELECT response FROM devChats WHERE devChats.ticket_id = devTickets.id ORDER BY devChats.created_at ASC LIMIT 1) as first_response')
+            )
             ->get();
     }
 

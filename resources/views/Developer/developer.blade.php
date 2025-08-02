@@ -78,6 +78,13 @@
     align-items: center;
     flex-shrink: 0;
   }
+
+  .user-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
 </style>
 @endsection
 
@@ -119,13 +126,17 @@
           </div>
           <h6 class="mt-2 mb-1">{{ $ticket->title }}</h6>
           <div class="text-muted linebox" style="font-size: 14px;">
-            <i class="bi bi-person-fill me-1"></i> {{ $ticket->support_name }}
+            <img 
+              src="{{ $ticket->user_avatar ? asset($ticket->user_avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($ticket->support_name) }}" 
+              class="user-avatar me-1" 
+              alt="avatar">
+            {{ $ticket->support_name }}
             <i class="bi bi-clock ms-3 me-1"></i> {{ $ticket->created_at }}
           </div>
         </div>
         <div class="text-end">
           <div class="ticket-actions mt-2">
-            <button class="btn btn-sm btn-open">Open</button>
+            <button class="btn btn-sm btn-open" onclick="window.location.href='{{ route('developer.ticket.detail', $ticket->id) }}'">Open</button>
             <button class="btn btn-sm btn-take">Take Ticket</button>
           </div>
         </div>

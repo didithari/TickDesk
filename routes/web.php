@@ -91,3 +91,4 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/password/reset/{token}', [NewPasswordController::class, 'index'])->name('newPassword');
     Route::post('/password/reset', [NewPasswordController::class, 'changePassword'])->name('updatePassword');
 });
+Route::get('/developer/ticket/{id}', [DeveloperController::class, 'detail'])->name('developer.ticket.detail');
