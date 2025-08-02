@@ -28,7 +28,19 @@ use App\Http\Controllers\PasswordResetController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->check()) {
+        switch (auth()->user()->privLevel) {
+            case 'spv':
+                return redirect()->route('SPV.spv');
+            case 'developer':
+                return redirect()->route('Developer.developer');
+            case 'support':
+                return redirect()->route('Chatsup.chatsup');
+            default:
+                return redirect('/login')->withErrors(['Unauthorized role']);
+        }
+    }
+    return redirect()->route('login');
 });
 
 //Dashboard admin : Akun Developer
